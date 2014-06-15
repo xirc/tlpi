@@ -1,9 +1,10 @@
 TARGETS = copy seek_io tee cp \
           bad_exclusive_open t_readv large_file \
-          large_file2 append_seek_write atomic_append
+          large_file2 append_seek_write atomic_append t_mdup
 OBJS = copy.o seek_io.o tee.o cp.o \
        bad_exclusive_open.o t_readv.o large_file.o \
-       large_file2.o append_seek_write.o atomic_append.o
+       large_file2.o append_seek_write.o atomic_append.o \
+       t_mdup.o mdup.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -11,6 +12,8 @@ RM = rm -f
 all: $(TARGETS)
 clean:
 	$(RM) $(TARGETS) $(OBJS)
+.c.o:
+	$(CC) $(CFLAGS) $(LDFLAGS) -c -o $@ $<
 
 copy: copy.o
 copy.o: copy.c
@@ -33,3 +36,6 @@ append_seek_write: append_seek_write.o
 append_seek_write.o: append_seek_write.c
 atomic_append: atomic_append.o
 atomic_append.o: atomic_append.c
+t_mdup: t_mdup.o mdup.o
+t_mdup.o: t_mdup.c
+mdup.o: mdup.c mdup.h
