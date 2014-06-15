@@ -1,10 +1,11 @@
 TARGETS = copy seek_io tee cp \
           bad_exclusive_open t_readv large_file \
-          large_file2 append_seek_write atomic_append t_mdup
+          large_file2 append_seek_write atomic_append t_mdup \
+          multi_descriptors
 OBJS = copy.o seek_io.o tee.o cp.o \
        bad_exclusive_open.o t_readv.o large_file.o \
        large_file2.o append_seek_write.o atomic_append.o \
-       t_mdup.o mdup.o
+       t_mdup.o mdup.o multi_descriptors.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -39,3 +40,5 @@ atomic_append.o: atomic_append.c
 t_mdup: t_mdup.o mdup.o
 t_mdup.o: t_mdup.c
 mdup.o: mdup.c mdup.h
+multi_descriptors: multi_descriptors.o
+multi_descriptors.o: multi_descriptors.c
