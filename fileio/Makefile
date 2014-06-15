@@ -1,9 +1,9 @@
 TARGETS = copy seek_io tee cp \
           bad_exclusive_open t_readv large_file \
-          large_file2
+          large_file2 append_seek_write
 OBJS = copy.o seek_io.o tee.o cp.o \
        bad_exclusive_open.o t_readv.o large_file.o \
-       large_file2.o
+       large_file2.o append_seek_write.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -29,3 +29,5 @@ large_file.o: large_file.c
 large_file2: large_file2.o
 large_file2.o: large_file2.c
 	$(CC) $(CFLAGS) -D_FILE_OFFSET_BITS=64 $(LDFLAGS) -c -o $@ $^
+append_seek_write: append_seek_write.o
+append_seek_write.o: append_seek_write.c
