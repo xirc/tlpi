@@ -1,5 +1,6 @@
-TARGETS = t_ugid_functions check_password t_getpwuid
-OBJS = ugid_functions.o t_ugid_functions.o check_password.o t_getpwuid.o
+TARGETS = t_ugid_functions check_password t_getpwuid m_getpwnam
+OBJS = ugid_functions.o t_ugid_functions.o check_password.o \
+       t_getpwuid.o m_getpwnam.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -18,3 +19,5 @@ check_password: check_password.o
 check_password.o: check_password.c
 t_getpwuid: t_getpwuid.o
 t_getpwuid.o: t_getpwuid.c
+m_getpwnam: m_getpwnam.o
+m_getpwnam.o: m_getpwnam.c
