@@ -1,5 +1,5 @@
-TARGETS = idshow
-OBJS = idshow.o
+TARGETS = idshow m_initgroups
+OBJS = idshow.o m_initgroups.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -12,3 +12,5 @@ clean:
 
 idshow: idshow.o
 idshow.o: idshow.c
+m_initgroups: m_initgroups.o
+m_initgroups.o: m_initgroups.c
