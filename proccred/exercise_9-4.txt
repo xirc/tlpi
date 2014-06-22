@@ -1,0 +1,22 @@
+# r=X e=Y, s=Y
+# y!=0
+a)
+euid = geteuid()
+if (seteuid(getuid()) == -1) {
+  exit(EXIT_FAILURE);
+}
+/* have no privileges */
+...
+if (seteuid(euid) == -1) {
+  exit(EXIT_FAILURE);
+}
+/* have privileges */
+...
+
+b)
+uid = getuid();
+if (setresuid(-1, uid, uid) == -1) {
+  exit(EXIT_FAILURE);
+}
+/* will not have privileges */
+...
