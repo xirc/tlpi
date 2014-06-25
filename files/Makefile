@@ -1,7 +1,7 @@
 TARGETS = t_stat t_chown t_umask t_stat2 eaccess \
-          getumask
+          getumask chmod_aprx
 OBJS = file_perms.o t_stat.o t_chown.o t_umask.o t_stat2.o eaccess.o \
-       getumask.o
+       getumask.o chmod_aprx.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -25,3 +25,5 @@ eaccess: eaccess.o
 eaccess.o: eaccess.c
 getumask: getumask.o
 getumask.o: getumask.c
+chmod_aprx: chmod_aprx.o
+chmod_aprx.o: chmod_aprx.c
