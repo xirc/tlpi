@@ -1,5 +1,5 @@
-TARGETS = xattr_view
-OBJS = xattr_view.o
+TARGETS = xattr_view setfattr
+OBJS = xattr_view.o setfattr.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -12,3 +12,5 @@ clean:
 
 xattr_view: xattr_view.o
 xattr_view.o: xattr_view.c
+setfattr: setfattr.o
+setfattr.o: setfattr.c
