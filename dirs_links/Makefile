@@ -1,5 +1,5 @@
-TARGETS = t_unlink list_files
-OBJS = t_unlink.o list_files.o
+TARGETS = t_unlink list_files nftw_dir_tree
+OBJS = t_unlink.o list_files.o nftw_dir_tree.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -14,3 +14,5 @@ t_unlink: t_unlink.o
 t_unlink.o: t_unlink.c
 list_files: list_files.o
 list_files.o: list_files.c
+nftw_dir_tree: nftw_dir_tree.o
+nftw_dir_tree.o: nftw_dir_tree.c
