@@ -1,0 +1,33 @@
+[vagrant@localhost section18]$ cc longrun.c -o longrun
+[vagrant@localhost section18]$ ls -li longrun
+1290 -rwxr-xr-x 1 vagrant vagrant 4646  6月 29 08:53 2014 longrun
+[vagrant@localhost section18]$ ./longrun &
+[1] 9556
+[vagrant@localhost section18]$ cc longrun.c -o longrun
+[vagrant@localhost section18]$ ls -li longrun
+1291 -rwxr-xr-x 1 vagrant vagrant 4646  6月 29 08:53 2014 longrun
+[vagrant@localhost section18]$ ./longrun &
+[2] 9563
+[vagrant@localhost section18]$ ps -u
+Warning: bad syntax, perhaps a bogus '-'? See /usr/share/doc/procps-3.2.8/FAQ
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+vagrant   4402  0.0  0.4   6524  2004 pts/0    Ss   Jun27   0:01 -bash
+vagrant   9556  0.0  0.0   1864   288 pts/0    S    08:53   0:00 ./longrun
+vagrant   9563  0.0  0.0   1864   292 pts/0    S    08:53   0:00 ./longrun
+vagrant   9564  0.0  0.2   5884  1060 pts/0    R+   08:53   0:00 ps -u
+[vagrant@localhost section18]$ kill 9556 9563
+[vagrant@localhost section18]$ ps -u
+Warning: bad syntax, perhaps a bogus '-'? See /usr/share/doc/procps-3.2.8/FAQ
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+vagrant   4402  0.0  0.4   6524  2004 pts/0    Ss   Jun27   0:01 -bash
+vagrant   9565  0.0  0.2   5884  1056 pts/0    R+   08:54   0:00 ps -u
+[1]-  終了しました      ./longrun
+[2]+  終了しました      ./longrun
+[vagrant@localhost section18]$
+
+
+cc では作成する実行ファイルlongrunを削除し(unlink)、
+新しい実行ファイルlongrunを作成する(inodeが異なる)。
+削除(unlink)は、プロセスがファイルを開いていても行える(プロセスがexecしたファイルでも）。
+従って、コンパイラはlongrunを生成する際にエラーETXTBSYとならない。
+そもそも変更するためにファイルをオープンしていない。
