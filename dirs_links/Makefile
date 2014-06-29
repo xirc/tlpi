@@ -1,5 +1,5 @@
-TARGETS = t_unlink list_files nftw_dir_tree view_symlink
-OBJS = t_unlink.o list_files.o nftw_dir_tree.o view_symlink.o
+TARGETS = t_unlink list_files nftw_dir_tree view_symlink t_dirbasename
+OBJS = t_unlink.o list_files.o nftw_dir_tree.o view_symlink.o t_dirbasename.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -18,3 +18,5 @@ nftw_dir_tree: nftw_dir_tree.o
 nftw_dir_tree.o: nftw_dir_tree.c
 view_symlink: view_symlink.o
 view_symlink.o: view_symlink.c
+t_dirbasename: t_dirbasename.o
+t_dirbasename.o: t_dirbasename.c
