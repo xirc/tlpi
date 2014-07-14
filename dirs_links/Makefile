@@ -1,9 +1,9 @@
 TARGETS = t_unlink list_files nftw_dir_tree view_symlink t_dirbasename \
           bad_symlink m_realpath list_files2 m_getcwd m_nftw_dir_tree \
-          m_file_type_stats m_nftw
+          m_file_type_stats m_nftw how_chdir
 OBJS = t_unlink.o list_files.o nftw_dir_tree.o view_symlink.o t_dirbasename.o \
        bad_symlink.o m_realpath.o list_files2.o m_getcwd.o m_nftw_dir_tree.o \
-       m_file_type_stats.o m_nftw.o
+       m_file_type_stats.o m_nftw.o how_chdir.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -38,3 +38,5 @@ m_file_type_stats: m_file_type_stats.o
 m_file_type_stats.o: m_file_type_stats.c
 m_nftw: m_nftw.o
 m_nftw.o: m_nftw.c
+how_chdir: how_chdir.o
+how_chdir.o: how_chdir.c
