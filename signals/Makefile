@@ -1,11 +1,13 @@
 TARGETS = ouch intquit t_kill t_signal_functions \
           sig_sender sig_receiver sig_receiver2 sig_receiver_ign \
           sig_receiver_nodefer sigreset m_siginterrupt \
-          nonreentrant sigmask_longjmp t_sigaltstack m_abort
+          nonreentrant sigmask_longjmp t_sigaltstack m_abort \
+          t_sigqueue catch_rtsigs
 OBJS = ouch.o intquit.o t_kill.o t_signal_functions.o signal_functions.o \
        sig_sender.o sig_receiver.o sig_receiver2.o sig_receiver_ign.o \
        sig_receiver_nodefer.o sigreset.o m_siginterrupt.o \
-       nonreentrant.o sigmask_longjmp.o t_sigaltstack.o m_abort.o
+       nonreentrant.o sigmask_longjmp.o t_sigaltstack.o m_abort.o \
+       t_sigqueue.o catch_rtsigs.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -48,3 +50,7 @@ t_sigaltstack: t_sigaltstack.o
 t_sigaltstack.o: t_sigaltstack.c
 m_abort: m_abort.o
 m_abort.o: m_abort.c
+t_sigqueue: t_sigqueue.o
+t_sigqueue.o: t_sigqueue.c
+catch_rtsigs: catch_rtsigs.o
+catch_rtsigs.o: catch_rtsigs.c
