@@ -1,5 +1,5 @@
-TARGETS = ouch intquit
-OBJS = ouch.o intquit.o
+TARGETS = ouch intquit t_kill
+OBJS = ouch.o intquit.o t_kill.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -14,3 +14,5 @@ ouch: ouch.o
 ouch.o: ouch.c
 intquit: intquit.o
 intquit.o: intquit.c
+t_kill: t_kill.o
+t_kill.o: t_kill.c
