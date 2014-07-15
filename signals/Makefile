@@ -1,7 +1,7 @@
 TARGETS = ouch intquit t_kill t_signal_functions \
-          sig_sender sig_receiver sig_receiver2
+          sig_sender sig_receiver sig_receiver2 sig_receiver_ign
 OBJS = ouch.o intquit.o t_kill.o t_signal_functions.o signal_functions.o \
-       sig_sender.o sig_receiver.o sig_receiver2.o
+       sig_sender.o sig_receiver.o sig_receiver2.o sig_receiver_ign.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -27,3 +27,5 @@ sig_receiver: sig_receiver.o signal_functions.o
 sig_receiver.o: sig_receiver.c signal_functions.h
 sig_receiver2: sig_receiver2.o signal_functions.o
 sig_receiver2.o: sig_receiver2.c signal_functions.h
+sig_receiver_ign: sig_receiver_ign.o signal_functions.o
+sig_receiver_ign.o: sig_receiver_ign.c signal_functions.h
