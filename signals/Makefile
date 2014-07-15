@@ -1,5 +1,5 @@
-TARGETS = ouch
-OBJS = ouch.o
+TARGETS = ouch intquit
+OBJS = ouch.o intquit.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -12,3 +12,5 @@ clean:
 
 ouch: ouch.o
 ouch.o: ouch.c
+intquit: intquit.o
+intquit.o: intquit.c
