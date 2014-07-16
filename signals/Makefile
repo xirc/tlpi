@@ -3,13 +3,15 @@ TARGETS = ouch intquit t_kill t_signal_functions \
           sig_receiver_nodefer sigreset m_siginterrupt \
           nonreentrant sigmask_longjmp t_sigaltstack m_abort \
           t_sigqueue catch_rtsigs t_sigsuspend t_sigwaitinfo \
-          signalfd_sigval sigcont sig_speed_sigsuspend sig_speed_sigwaitinfo
+          signalfd_sigval sigcont sig_speed_sigsuspend \
+          sig_speed_sigwaitinfo m_sysvsig
 OBJS = ouch.o intquit.o t_kill.o t_signal_functions.o signal_functions.o \
        sig_sender.o sig_receiver.o sig_receiver2.o sig_receiver_ign.o \
        sig_receiver_nodefer.o sigreset.o m_siginterrupt.o \
        nonreentrant.o sigmask_longjmp.o t_sigaltstack.o m_abort.o \
        t_sigqueue.o catch_rtsigs.o t_sigsuspend.o t_sigwaitinfo.o \
-       signalfd_sigval.o sigcont.o sig_speed_sigsuspend.o sig_speed_sigwaitinfo.o
+       signalfd_sigval.o sigcont.o sig_speed_sigsuspend.o \
+       sig_speed_sigwaitinfo.o m_sysvsig.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -68,3 +70,5 @@ sig_speed_sigsuspend: sig_speed_sigsuspend.o
 sig_speed_sigsuspend.o: sig_speed_sigsuspend.c
 sig_speed_sigwaitinfo: sig_speed_sigwaitinfo.o
 sig_speed_sigwaitinfo.o: sig_speed_sigwaitinfo.c
+m_sysvsig: m_sysvsig.o
+m_sysvsig.o: m_sysvsig.c
