@@ -1,7 +1,9 @@
 TARGETS = real_timer timed_read t_nanosleep \
-          ptmr_sigev_signal ptmr_sigev_thread demo_timerfd
+          ptmr_sigev_signal ptmr_sigev_thread demo_timerfd \
+          m_alarm
 OBJS = real_timer.o timed_read.o t_nanosleep.o itimerspec_from_string.o \
-       ptmr_sigev_signal.o ptmr_sigev_thread.o demo_timerfd.o
+       ptmr_sigev_signal.o ptmr_sigev_thread.o demo_timerfd.o \
+       m_alarm.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -28,3 +30,5 @@ ptmr_sigev_thread.o: ptmr_sigev_thread.c itimerspec_from_string.h
 demo_timerfd: demo_timerfd.o itimerspec_from_string.o
 	$(CC) -lrt -o $@ $^
 demo_timerfd.o: demo_timerfd.c itimerspec_from_string.h
+m_alarm: m_alarm.o
+m_alarm.o: m_alarm.c
