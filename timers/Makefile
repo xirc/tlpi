@@ -1,5 +1,5 @@
-TARGETS = real_timer
-OBJS = real_timer.o
+TARGETS = real_timer timed_read
+OBJS = real_timer.o timed_read.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -12,3 +12,5 @@ clean:
 
 real_timer: real_timer.o
 real_timer.o: real_timer.c
+timed_read: timed_read.o
+timed_read.o: timed_read.c
