@@ -1,0 +1,14 @@
+TARGETS = real_timer
+OBJS = real_timer.o
+CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
+LDFLAGS =
+RM = rm -f
+
+all: $(TARGETS)
+clean:
+	$(RM) $(TARGETS) $(OBJS)
+.c.o:
+	$(CC) $(CFLAGS) $(LDFLAGS) -c -o $@ $<
+
+real_timer: real_timer.o
+real_timer.o: real_timer.c
