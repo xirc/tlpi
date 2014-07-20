@@ -1,5 +1,7 @@
-TARGETS = t_fork fork_file_sharing t_vfork fork_whos_on_first
-OBJS = t_fork.o fork_file_sharing.o t_vfork.o fork_whos_on_first.o
+TARGETS = t_fork fork_file_sharing t_vfork fork_whos_on_first \
+          fork_sig_sync
+OBJS = t_fork.o fork_file_sharing.o t_vfork.o fork_whos_on_first.o \
+       fork_sig_sync.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -18,3 +20,5 @@ t_vfork: t_vfork.o
 t_vfork.o: t_vfork.c
 fork_whos_on_first: fork_whos_on_first.o
 fork_whos_on_first.o: fork_whos_on_first.c
+fork_sig_sync: fork_sig_sync.o
+fork_sig_sync.o: fork_sig_sync.c
