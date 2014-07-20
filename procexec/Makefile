@@ -1,5 +1,5 @@
-TARGETS = t_fork
-OBJS = t_fork.o
+TARGETS = t_fork fork_file_sharing
+OBJS = t_fork.o fork_file_sharing.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -12,3 +12,5 @@ clean:
 
 t_fork: t_fork.o
 t_fork.o: t_fork.c
+fork_file_sharing: fork_file_sharing.o
+fork_file_sharing.o: fork_file_sharing.c
