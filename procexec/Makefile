@@ -3,13 +3,13 @@ TARGETS = t_fork fork_file_sharing t_vfork fork_whos_on_first \
           fork_sig_sync2 exit_handlers fork_stdio_buf exitstatus \
           multi_wait child_status make_zombie \
           multi_SIGCHLD ppid_when_parent_dies ppid3 child_status2 \
-          make_zombie2 t_execve envargs t_execlp
+          make_zombie2 t_execve envargs t_execlp t_execle
 OBJS = t_fork.o fork_file_sharing.o t_vfork.o fork_whos_on_first.o \
        fork_sig_sync.o fork3.o vfork_closefd.o fork_and_coredump.o \
        fork_sig_sync2.o exit_handlers.o fork_stdio_buf.o exitstatus.o \
        multi_wait.o print_wait_status.o child_status.o make_zombie.o \
        multi_SIGCHLD.o ppid_when_parent_dies.o ppid3.o child_status2.o \
-       make_zombie2.o t_execve.o envargs.o t_execlp.o
+       make_zombie2.o t_execve.o envargs.o t_execlp.o t_execle.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -67,3 +67,5 @@ envargs: envargs.o
 envargs.o: envargs.c
 t_execlp: t_execlp.o
 t_execlp.o: t_execlp.c
+t_execle: t_execle.o
+t_execle.o: t_execle.c
