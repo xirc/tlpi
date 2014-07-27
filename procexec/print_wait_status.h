@@ -23,7 +23,13 @@
 */
 
 
+#include <sys/types.h>
+
+
 void print_wait_status(const char *msg, int status);
+
+
+void print_wait_status2(const char *msg, const siginfo_t *si);
 
 
 #endif
