@@ -1,9 +1,9 @@
 TARGETS = t_fork fork_file_sharing t_vfork fork_whos_on_first \
           fork_sig_sync fork3 vfork_closefd fork_and_coredump \
-          fork_sig_sync2 exit_handlers
+          fork_sig_sync2 exit_handlers fork_stdio_buf
 OBJS = t_fork.o fork_file_sharing.o t_vfork.o fork_whos_on_first.o \
        fork_sig_sync.o fork3.o vfork_closefd.o fork_and_coredump.o \
-       fork_sig_sync2.o exit_handlers.o
+       fork_sig_sync2.o exit_handlers.o fork_stdio_buf.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -34,3 +34,5 @@ fork_sig_sync2: fork_sig_sync2.o
 fork_sig_sync2.o: fork_sig_sync2.c
 exit_handlers: exit_handlers.o
 exit_handlers.o: exit_handlers.c
+fork_stdio_buf: fork_stdio_buf.o
+fork_stdio_buf.o: fork_stdio_buf.c
