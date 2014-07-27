@@ -4,14 +4,14 @@ TARGETS = t_fork fork_file_sharing t_vfork fork_whos_on_first \
           multi_wait child_status make_zombie \
           multi_SIGCHLD ppid_when_parent_dies ppid3 child_status2 \
           make_zombie2 t_execve envargs t_execlp t_execle t_execl \
-          closeonexec t_system simple_system
+          closeonexec t_system simple_system m_system
 OBJS = t_fork.o fork_file_sharing.o t_vfork.o fork_whos_on_first.o \
        fork_sig_sync.o fork3.o vfork_closefd.o fork_and_coredump.o \
        fork_sig_sync2.o exit_handlers.o fork_stdio_buf.o exitstatus.o \
        multi_wait.o print_wait_status.o child_status.o make_zombie.o \
        multi_SIGCHLD.o ppid_when_parent_dies.o ppid3.o child_status2.o \
        make_zombie2.o t_execve.o envargs.o t_execlp.o t_execle.o t_execl.o \
-       closeonexec.o t_system.o simple_system.o
+       closeonexec.o t_system.o simple_system.o m_system.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -79,3 +79,5 @@ t_system: t_system.o print_wait_status.o
 t_system.o: t_system.c print_wait_status.h
 simple_system: simple_system.o print_wait_status.o
 simple_system.o: simple_system.c print_wait_status.h
+m_system: m_system.o print_wait_status.o
+m_system.o: m_system.c print_wait_status.h
