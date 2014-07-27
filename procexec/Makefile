@@ -2,12 +2,12 @@ TARGETS = t_fork fork_file_sharing t_vfork fork_whos_on_first \
           fork_sig_sync fork3 vfork_closefd fork_and_coredump \
           fork_sig_sync2 exit_handlers fork_stdio_buf exitstatus \
           multi_wait child_status make_zombie \
-          multi_SIGCHLD ppid_when_parent_dies
+          multi_SIGCHLD ppid_when_parent_dies ppid3
 OBJS = t_fork.o fork_file_sharing.o t_vfork.o fork_whos_on_first.o \
        fork_sig_sync.o fork3.o vfork_closefd.o fork_and_coredump.o \
        fork_sig_sync2.o exit_handlers.o fork_stdio_buf.o exitstatus.o \
        multi_wait.o print_wait_status.o child_status.o make_zombie.o \
-       multi_SIGCHLD.o ppid_when_parent_dies.o
+       multi_SIGCHLD.o ppid_when_parent_dies.o ppid3.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -53,3 +53,5 @@ multi_SIGCHLD: multi_SIGCHLD.o print_wait_status.o
 multi_SIGCHLD.o: multi_SIGCHLD.c print_wait_status.h
 ppid_when_parent_dies: ppid_when_parent_dies.o
 ppid_when_parent_dies.o: ppid_when_parent_dies.c
+ppid3: ppid3.o
+ppid3.o: ppid3.c
