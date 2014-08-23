@@ -1,5 +1,7 @@
-TARGETS = simple_thread detached_attrib t_join_self no_join_self
-OBJS = simple_thread.o detached_attrib.o t_join_self.o no_join_self.o
+TARGETS = simple_thread detached_attrib t_join_self \
+          no_join_self wrong_reference
+OBJS = simple_thread.o detached_attrib.o t_join_self.o \
+       no_join_self.o wrong_reference.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS = -pthread
 RM = rm -f
@@ -18,3 +20,5 @@ t_join_self: t_join_self.o
 t_join_self.o: t_join_self.c
 no_join_self: no_join_self.o
 no_join_self.o: no_join_self.c
+wrong_reference: wrong_reference.o
+wrong_reference.o: wrong_reference.c
