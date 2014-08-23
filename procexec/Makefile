@@ -6,7 +6,7 @@ TARGETS = t_fork fork_file_sharing t_vfork fork_whos_on_first \
           make_zombie2 t_execve envargs t_execlp t_execle t_execl \
           closeonexec t_system simple_system m_system m_execlp \
           fork_copy noprint wait_and_blockSIGCHLD \
-          acct_on acct_view t_clone
+          acct_on acct_view t_clone spec_fork
 OBJS = t_fork.o fork_file_sharing.o t_vfork.o fork_whos_on_first.o \
        fork_sig_sync.o fork3.o vfork_closefd.o fork_and_coredump.o \
        fork_sig_sync2.o exit_handlers.o fork_stdio_buf.o exitstatus.o \
@@ -15,7 +15,7 @@ OBJS = t_fork.o fork_file_sharing.o t_vfork.o fork_whos_on_first.o \
        make_zombie2.o t_execve.o envargs.o t_execlp.o t_execle.o t_execl.o \
        closeonexec.o t_system.o simple_system.o m_system.o m_execlp.o \
        fork_copy.o noprint.o wait_and_blockSIGCHLD.o \
-       acct_on.o acct_view.o t_clone.o
+       acct_on.o acct_view.o t_clone.o spec_fork.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -99,3 +99,5 @@ acct_view: acct_view.o
 acct_view.o: acct_view.c
 t_clone: t_clone.o
 t_clone.o: t_clone.c
+spec_fork: spec_fork.o
+spec_fork.o: spec_fork.c
