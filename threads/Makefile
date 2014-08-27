@@ -1,11 +1,13 @@
 TARGETS = simple_thread detached_attrib t_join_self \
           no_join_self wrong_reference thread_incr thread_incr_mutex \
           thread_mutex_type prod_no_condvar prod_condvar thread_multijoin \
-          thread_incr2 t_ubt_test1 t_ubt_test1s t_ubt_test2 t_ubt_test2s
+          thread_incr2 t_ubt_test1 t_ubt_test1s t_ubt_test2 t_ubt_test2s \
+          strerror_test
 OBJS = simple_thread.o detached_attrib.o t_join_self.o \
        no_join_self.o wrong_reference.o thread_incr.o thread_incr_mutex.o \
        thread_mutex_type.o prod_no_condvar.o prod_condvar.o thread_multijoin.o \
-       thread_incr2.o t_ubt_test1.o t_ubt_test2.o ubt.o ubt_simple.o
+       thread_incr2.o t_ubt_test1.o t_ubt_test2.o ubt.o ubt_simple.o \
+       strerror_test.o strerror.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS = -pthread
 RM = rm -f
@@ -51,3 +53,6 @@ t_ubt_test2s: t_ubt_test2.o ubt_simple.o
 	$(CC) $(LDFLAGS) -o $@ $^
 ubt.o: ubt.c ubt.h
 ubt_simple.o: ubt_simple.c ubt.h
+strerror_test: strerror_test.o strerror.o
+strerror_test.o: strerror_test.c
+strerror.o: strerror.c
