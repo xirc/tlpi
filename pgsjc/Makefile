@@ -1,5 +1,5 @@
-TARGETS = t_pgrp t_setsid t_ctermid catch_SIGHUP
-OBJS = t_pgrp.o t_setsid.o t_ctermid.o catch_SIGHUP.o
+TARGETS = t_pgrp t_setsid t_ctermid catch_SIGHUP disc_SIGHUP
+OBJS = t_pgrp.o t_setsid.o t_ctermid.o catch_SIGHUP.o disc_SIGHUP.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -18,3 +18,5 @@ t_ctermid: t_ctermid.o
 t_ctermid.o: t_ctermid.c
 catch_SIGHUP: catch_SIGHUP.o
 catch_SIGHUP.o: catch_SIGHUP.c
+disc_SIGHUP: disc_SIGHUP.o
+disc_SIGHUP.o: disc_SIGHUP.c
