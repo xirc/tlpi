@@ -1,5 +1,5 @@
-TARGETS = t_pgrp
-OBJS = t_pgrp.o
+TARGETS = t_pgrp t_setsid
+OBJS = t_pgrp.o t_setsid.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -12,3 +12,5 @@ clean:
 
 t_pgrp: t_pgrp.o
 t_pgrp.o: t_pgrp.c
+t_setsid: t_setsid.o
+t_setsid.o: t_setsid.c
