@@ -1,7 +1,7 @@
 TARGETS = t_pgrp t_setsid t_ctermid catch_SIGHUP disc_SIGHUP \
-          job_mon handling_SIGTSTP
+          job_mon handling_SIGTSTP orphaned_pgrp_SIGHUP
 OBJS = t_pgrp.o t_setsid.o t_ctermid.o catch_SIGHUP.o disc_SIGHUP.o \
-       job_mon.o handling_SIGTSTP.o
+       job_mon.o handling_SIGTSTP.o orphaned_pgrp_SIGHUP.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -26,3 +26,5 @@ job_mon: job_mon.o
 job_mon.o: job_mon.c
 handling_SIGTSTP: handling_SIGTSTP.o
 handling_SIGTSTP.o: handling_SIGTSTP.c
+orphaned_pgrp_SIGHUP: orphaned_pgrp_SIGHUP.o
+orphaned_pgrp_SIGHUP.o: orphaned_pgrp_SIGHUP.c
