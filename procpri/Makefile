@@ -1,5 +1,7 @@
-TARGETS = t_setpriority sched_set sched_view t_sched_yield
-OBJS = t_setpriority.o sched_set.o sched_view.o t_sched_yield.o
+TARGETS = t_setpriority sched_set sched_view t_sched_yield \
+          t_sched_rr_get_interval
+OBJS = t_setpriority.o sched_set.o sched_view.o t_sched_yield.o \
+       t_sched_rr_get_interval.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -18,3 +20,5 @@ sched_view: sched_view.o
 sched_view.o: sched_view.c
 t_sched_yield: t_sched_yield.o
 t_sched_yield.o: t_sched_yield.c
+t_sched_rr_get_interval: t_sched_rr_get_interval.o
+t_sched_rr_get_interval.o: t_sched_rr_get_interval.c
