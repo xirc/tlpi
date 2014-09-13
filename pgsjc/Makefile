@@ -1,11 +1,11 @@
 TARGETS = t_pgrp t_setsid t_ctermid catch_SIGHUP disc_SIGHUP \
           job_mon handling_SIGTSTP orphaned_pgrp_SIGHUP \
           t_killpg_bad t_killpg_good t_setpgrp_exec t_pgrl_setsid \
-          disc_SIGHUP2
+          disc_SIGHUP2 orphaned_proc_readtty
 OBJS = t_pgrp.o t_setsid.o t_ctermid.o catch_SIGHUP.o disc_SIGHUP.o \
        job_mon.o handling_SIGTSTP.o orphaned_pgrp_SIGHUP.o \
        t_killpg_bad.o t_killpg_good.o t_setpgrp_exec.o t_pgrl_setsid.o \
-       disc_SIGHUP2.o
+       disc_SIGHUP2.o orphaned_proc_readtty.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -42,3 +42,5 @@ t_pgrl_setsid: t_pgrl_setsid.o
 t_pgrl_setsid.o: t_pgrl_setsid.c
 disc_SIGHUP2: disc_SIGHUP2.o
 disc_SIGHUP2.o: disc_SIGHUP2.c
+orphaned_proc_readtty: orphaned_proc_readtty.o
+orphaned_proc_readtty.o: orphaned_proc_readtty.c
