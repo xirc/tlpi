@@ -1,5 +1,5 @@
-TARGETS = t_setpriority sched_set sched_view
-OBJS = t_setpriority.o sched_set.o sched_view.o
+TARGETS = t_setpriority sched_set sched_view t_sched_yield
+OBJS = t_setpriority.o sched_set.o sched_view.o t_sched_yield.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -16,3 +16,5 @@ sched_set: sched_set.o
 sched_set.o: sched_set.c
 sched_view: sched_view.o
 sched_view.o: sched_view.c
+t_sched_yield: t_sched_yield.o
+t_sched_yield.o: t_sched_yield.c
