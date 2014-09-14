@@ -1,9 +1,9 @@
 TARGETS = t_setpriority sched_set sched_view t_sched_yield \
           t_sched_rr_get_interval t_sched_getaffinity t_sched_setaffinity \
-          m_nice rtsched
+          m_nice rtsched demo_sched_fifo
 OBJS = t_setpriority.o sched_set.o sched_view.o t_sched_yield.o \
        t_sched_rr_get_interval.o t_sched_getaffinity.o t_sched_setaffinity.o \
-       m_nice.o rtsched.o
+       m_nice.o rtsched.o demo_sched_fifo.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -32,3 +32,5 @@ m_nice: m_nice.o
 m_nice.o: m_nice.c
 rtsched: rtsched.o
 rtsched.o: rtsched.c
+demo_sched_fifo: demo_sched_fifo.o
+demo_sched_fifo.o: demo_sched_fifo.c
