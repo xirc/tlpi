@@ -1,7 +1,7 @@
 TARGETS = t_getrusage rlimit_nproc \
-          getrusage_fork
+          getrusage_fork rusage
 OBJS = t_getrusage.o rlimit_nproc.o print_rlimit.o \
-       getrusage_fork.o print_rusage.o
+       getrusage_fork.o print_rusage.o rusage.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -21,3 +21,5 @@ print_rlimit.o: print_rlimit.c print_rlimit.h
 getrusage_fork: getrusage_fork.o print_rusage.o
 getrusage_fork.o: getrusage_fork.c print_rusage.h
 print_rusage.o: print_rusage.c print_rusage.h
+rusage: rusage.o print_rusage.o
+rusage.o: rusage.c print_rusage.h
