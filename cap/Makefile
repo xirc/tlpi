@@ -1,5 +1,5 @@
-TARGETS = douser
-OBJS = douser.o
+TARGETS = douser check_password_caps
+OBJS = douser.o check_password_caps.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -13,3 +13,6 @@ clean:
 douser: douser.o
 	$(CC) $(LDFLAGS) -lcrypt -o $@ $^
 douser.o: douser.c
+check_password_caps: check_password_caps.o
+	$(CC) $(LDFLAGS) -lcrypt -lcap -o $@ $^
+check_password_caps.o: check_password_caps.c
