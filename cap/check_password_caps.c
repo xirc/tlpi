@@ -44,82 +44,12 @@
 #include <shadow.h>
 #include <string.h>
 
-
-/* Change setting of capability
- * in caller's effective capabilities */
-static int
-modify_cap(int capability, int setting)
-{
-    cap_t caps;
-    cap_value_t cap_list[1];
-
-    /* Retrieve caller's current capabilities */
-
-    caps = cap_get_proc();
-    if (caps == NULL) {
-        return -1;
-    }
-
-    /* Change setting of 'capability' in the effective set of 'caps'.
-     * The third argument, 1,
-     *     is the number of items in the array 'cap_list'. */
-    cap_list[0] = capability;
-    if (cap_set_flag(caps, CAP_EFFECTIVE, 1, cap_list, setting) == -1) {
-        cap_free(caps);
-        return -1;
-    }
-
-    /* Push modified capability sets back to kernel,
-     * to change caller's capabilities */
-    if (cap_set_proc(caps) == -1) {
-        cap_free(caps);
-        return -1;
-    }
-
-    /* Free the structure that was allocated by libcap */
-    if (cap_free(caps) == -1) {
-        return -1;
-    }
-
-    return 0;
-}
-
-
-/* Raise capability in caller's effective set */
-static int
-raise_cap(int capability)
-{
-    return modify_cap(capability, CAP_SET);
-}
-
-
-/* An analogous drop_cap() (unneeded in this program),
- * could be defined as: modify_cap(capability, CAP_CLEAR); */
-
-/* Drop all capabilities from all sets */
-static int
-drop_all_caps(void)
-{
-    cap_t empty;
-    int s;
-
-    empty = cap_init();
-    if (empty == NULL) {
-        return -1;
-    }
-
-    s = cap_set_proc(empty);
-
-    if (cap_free(empty) == -1) {
-        return -1;
-    }
-
-    return s;
-}
+#include "caplib.h"
 
 
 int
-main(int argc, char *argv[])
+main(int argc __attribute__((unused)),
+     char *argv[] __attribute__((unused)))
 {
     char *username, *password, *encrypted, *p;
     struct passwd *pwd;
