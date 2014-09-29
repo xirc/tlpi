@@ -1,5 +1,5 @@
-TARGETS = test_become_daemon
-OBJS = test_become_daemon.o become_daemon.o
+TARGETS = test_become_daemon daemon_SIGHUP
+OBJS = test_become_daemon.o become_daemon.o daemon_SIGHUP.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -13,3 +13,5 @@ clean:
 test_become_daemon: test_become_daemon.o become_daemon.o
 test_become_daemon.o: test_become_daemon.c become_daemon.h
 become_daemon.o: become_daemon.c become_daemon.h
+daemon_SIGHUP: daemon_SIGHUP.o become_daemon.o
+daemon_SIGHUP.o: daemon_SIGHUP.c become_daemon.h
