@@ -1,5 +1,7 @@
-TARGETS = dump_utmpx t_getlogin utmpx_login view_lastlog m_getlogin
-OBJS = dump_utmpx.o t_getlogin.o utmpx_login.o view_lastlog.o m_getlogin.o
+TARGETS = dump_utmpx t_getlogin utmpx_login view_lastlog m_getlogin \
+          utmpx_login2
+OBJS = dump_utmpx.o t_getlogin.o utmpx_login.o view_lastlog.o m_getlogin.o \
+       utmpx_login2.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -20,3 +22,5 @@ view_lastlog: view_lastlog.o
 view_lastlog.o: view_lastlog.c
 m_getlogin: m_getlogin.o
 m_getlogin.o: m_getlogin.c
+utmpx_login2: utmpx_login2.o
+utmpx_login2.o: utmpx_login2.c

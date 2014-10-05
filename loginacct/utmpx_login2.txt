@@ -1,0 +1,93 @@
+[root@localhost loginacct]# who
+vagrant  pts/0        2014-10-05 01:46 (10.0.2.2)
+[root@localhost loginacct]# last yam
+yam      pts/0                         Sun Oct  5 06:31 - 06:31  (00:00)
+
+wtmp begins Sun Nov  3 08:11:31 2013
+[root@localhost loginacct]# ./utmpx_login yam
+Creating login entries in utmp and wtmp
+        using pid 4250, line pts/0, id /0
+^Z
+[1]+  停止                  ./utmpx_login yam
+[root@localhost loginacct]# ./dump_utmpx /var/run/utmp | grep yam
+yam      USER_PR    4250 pts/0  /0            Sun Oct  5 06:33:12 2014
+[root@localhost loginacct]# who
+vagrant  pts/0        2014-10-05 01:46 (10.0.2.2)
+yam      pts/0        2014-10-05 06:33
+[root@localhost loginacct]# ./dump_utmpx /var/log/wtmp | grep yam
+yam      USER_PR    4237 pts/0  /0            Sun Oct  5 06:31:17 2014
+yam      USER_PR    4250 pts/0  /0            Sun Oct  5 06:33:12 2014
+[root@localhost loginacct]# ./dump_utmpx /var/log/wtmp | tail -n5
+mtk      USER_PR    3401 pts/0  /0            Sun Oct  5 04:54:59 2014
+         DEAD_PR    3401 pts/0  /0            Sun Oct  5 04:55:37 2014
+yam      USER_PR    4237 pts/0  /0            Sun Oct  5 06:31:17 2014
+         DEAD_PR    4237 pts/0  /0            Sun Oct  5 06:31:32 2014
+yam      USER_PR    4250 pts/0  /0            Sun Oct  5 06:33:12 2014
+[root@localhost loginacct]# last yam
+yam      pts/0                         Sun Oct  5 06:33   still logged in
+yam      pts/0                         Sun Oct  5 06:31 - 06:31  (00:00)
+
+wtmp begins Sun Nov  3 08:11:31 2013
+[root@localhost loginacct]# fg
+./utmpx_login yam
+Creating logout entries in utmp and wtmp
+[root@localhost loginacct]# lastlog | grep yam
+yam              pts/0                     日 10月  5 06:31:17 +0000 2014
+[root@localhost loginacct]# ./dump_utmpx /var/run/utmp | grep yam
+[root@localhost loginacct]# ./dump_utmpx /var/log/wtmp | tail -n5
+         DEAD_PR    3401 pts/0  /0            Sun Oct  5 04:55:37 2014
+yam      USER_PR    4237 pts/0  /0            Sun Oct  5 06:31:17 2014
+         DEAD_PR    4237 pts/0  /0            Sun Oct  5 06:31:32 2014
+yam      USER_PR    4250 pts/0  /0            Sun Oct  5 06:33:12 2014
+         DEAD_PR    4250 pts/0  /0            Sun Oct  5 06:34:31 2014
+[root@localhost loginacct]# last yam
+yam      pts/0                         Sun Oct  5 06:33 - 06:34  (00:01)
+yam      pts/0                         Sun Oct  5 06:31 - 06:31  (00:00)
+
+wtmp begins Sun Nov  3 08:11:31 2013
+[root@localhost loginacct]# lastlog | grep yam
+yam              pts/0                     日 10月  5 06:31:17 +0000 2014
+[root@localhost loginacct]# ./utmpx_login2 yam
+Creating login entries in utmp, wtmp, and lastlog
+        using pid 4269, line pts/0, id /0
+^Z
+[1]+  停止                  ./utmpx_login2 yam
+[root@localhost loginacct]# ./dump_utmpx /var/run/utmp | grep yam
+yam      USER_PR    4269 pts/0  /0            Sun Oct  5 06:37:30 2014
+[root@localhost loginacct]# who
+vagrant  pts/0        2014-10-05 01:46 (10.0.2.2)
+yam      pts/0        2014-10-05 06:37
+[root@localhost loginacct]# ./dump_utmpx /var/log/wtmp | tail -n5
+yam      USER_PR    4237 pts/0  /0            Sun Oct  5 06:31:17 2014
+         DEAD_PR    4237 pts/0  /0            Sun Oct  5 06:31:32 2014
+yam      USER_PR    4250 pts/0  /0            Sun Oct  5 06:33:12 2014
+         DEAD_PR    4250 pts/0  /0            Sun Oct  5 06:34:31 2014
+yam      USER_PR    4269 pts/0  /0            Sun Oct  5 06:37:30 2014
+[root@localhost loginacct]# last yam
+yam      pts/0                         Sun Oct  5 06:37   still logged in
+yam      pts/0                         Sun Oct  5 06:33 - 06:34  (00:01)
+yam      pts/0                         Sun Oct  5 06:31 - 06:31  (00:00)
+
+wtmp begins Sun Nov  3 08:11:31 2013
+[root@localhost loginacct]# lastlog | grep yam
+yam              pts/0                     日 10月  5 06:37:30 +0000 2014
+[root@localhost loginacct]# fg
+./utmpx_login2 yam
+Creating logout entries in utmp and wtmp
+[root@localhost loginacct]# ./dump_utmpx /var/run/utmp | grep yam
+[root@localhost loginacct]# who
+vagrant  pts/0        2014-10-05 01:46 (10.0.2.2)
+[root@localhost loginacct]# ./dump_utmpx /var/log/wtmp | tail -n5
+         DEAD_PR    4237 pts/0  /0            Sun Oct  5 06:31:32 2014
+yam      USER_PR    4250 pts/0  /0            Sun Oct  5 06:33:12 2014
+         DEAD_PR    4250 pts/0  /0            Sun Oct  5 06:34:31 2014
+yam      USER_PR    4269 pts/0  /0            Sun Oct  5 06:37:30 2014
+         DEAD_PR    4269 pts/0  /0            Sun Oct  5 06:38:39 2014
+[root@localhost loginacct]# last yam
+yam      pts/0                         Sun Oct  5 06:37 - 06:38  (00:01)
+yam      pts/0                         Sun Oct  5 06:33 - 06:34  (00:01)
+yam      pts/0                         Sun Oct  5 06:31 - 06:31  (00:00)
+
+wtmp begins Sun Nov  3 08:11:31 2013
+[root@localhost loginacct]# lastlog | grep yam
+yam              pts/0                     日 10月  5 06:37:30 +0000 2014
