@@ -1,7 +1,9 @@
 TARGETS = simple_pipe pipe_sync pipe_ls_wc popen_glob \
-          fifo_seqnum_server fifo_seqnum_client echo_upcase
+          fifo_seqnum_server fifo_seqnum_client echo_upcase \
+          m_popen_pclose
 OBJS = simple_pipe.o pipe_sync.o pipe_ls_wc.o popen_glob.o \
-       fifo_seqnum_server.o fifo_seqnum_client.o echo_upcase.o
+       fifo_seqnum_server.o fifo_seqnum_client.o echo_upcase.o \
+       m_popen_pclose.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -26,3 +28,5 @@ fifo_seqnum_client: fifo_seqnum_client.o
 fifo_seqnum_client.o: fifo_seqnum_client.c fifo_seqnum.h
 echo_upcase: echo_upcase.o
 echo_upcase.o: echo_upcase.c
+m_popen_pclose: m_popen_pclose.o
+m_popen_pclose.o: m_popen_pclose.c
