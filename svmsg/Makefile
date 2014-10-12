@@ -1,5 +1,5 @@
-TARGETS = svmsg_create
-OBJS = svmsg_create.o
+TARGETS = svmsg_create svmsg_send
+OBJS = svmsg_create.o svmsg_send.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -12,3 +12,5 @@ clean:
 
 svmsg_create: svmsg_create.o
 svmsg_create.o: svmsg_create.c
+svmsg_send: svmsg_send.o
+svmsg_send.o: svmsg_send.c
