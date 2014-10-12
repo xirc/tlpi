@@ -1,5 +1,7 @@
-TARGETS = svmsg_create svmsg_send svmsg_receive svmsg_rm svmsg_chqbytes
-OBJS = svmsg_create.o svmsg_send.o svmsg_receive.o svmsg_rm.o svmsg_chqbytes.o
+TARGETS = svmsg_create svmsg_send svmsg_receive svmsg_rm svmsg_chqbytes \
+          svmsg_ls
+OBJS = svmsg_create.o svmsg_send.o svmsg_receive.o svmsg_rm.o svmsg_chqbytes.o \
+       svmsg_ls.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -20,3 +22,5 @@ svmsg_rm: svmsg_rm.o
 svmsg_rm.o: svmsg_rm.c
 svmsg_chqbytes: svmsg_chqbytes.o
 svmsg_chqbytes.o: svmsg_chqbytes.c
+svmsg_ls: svmsg_ls.o
+svmsg_ls.o: svmsg_ls.c
