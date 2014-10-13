@@ -46,15 +46,19 @@
 #include "fifo_seqnum.h"
 
 
+#define SERVER_SEQNUM_FILE "./fifo_seqnum_server.seqnum"
+
+
 int
 main(int argc __attribute__((unused)),
      char *argv[] __attribute__((unused)))
 {
-    int server_fd, dummy_fd, client_fd;
+    int server_fd, dummy_fd, client_fd, seqnum_fd;
     char client_fifo[CLIENT_FIFO_NAME_LEN];
     struct request req;
     struct response resp;
-    int seq_num = 0;        /* This is our "service" */
+    int num_read;
+    int seq_num;        /* This is our "service" */
 
     /* Create well-known FIFO, and open it for reading */
     umask(0);   /* So we get the permissions we want */
@@ -82,6 +86,38 @@ main(int argc __attribute__((unused)),
     if (signal(SIGPIPE, SIG_IGN) == SIG_ERR) {
         perror("signal");
         exit(EXIT_FAILURE);
+    }
+
+    /* Initialize SEQNUM */
+    seqnum_fd = open(SERVER_SEQNUM_FILE,
+            O_RDWR | O_EXCL | O_SYNC,
+            S_IRUSR | S_IWUSR | S_IRGRP /* rw-r----- */);
+    if (seqnum_fd == -1 && errno != ENOENT) {
+        exit(EXIT_FAILURE);
+    }
+    if (seqnum_fd == -1) {
+        /* SERVER_SEQNUM_FILE does not exist */
+        seqnum_fd = open(SERVER_SEQNUM_FILE,
+                O_RDWR | O_CREAT | O_EXCL | O_SYNC,
+                S_IRUSR | S_IWUSR | S_IRGRP /* rw-r----- */);
+        if (seqnum_fd == -1) {
+            perror("open");
+            exit(EXIT_FAILURE);
+        }
+        seq_num = 0;
+    } else {
+        num_read = read(seqnum_fd, &seq_num, sizeof(seq_num));
+        if (num_read == -1) {
+            perror("read");
+            exit(EXIT_FAILURE);
+        }
+        if (num_read != sizeof(seq_num)) {
+            fprintf(stderr,
+                "Cannot read config file '" SERVER_SEQNUM_FILE "'\n");
+            fprintf(stderr,
+                "Use 0 as seq_num\n");
+            seq_num = 0;
+        }
     }
 
     /* Read requests and send responses */
@@ -114,6 +150,15 @@ main(int argc __attribute__((unused)),
         }
 
         seq_num += req.seq_len;
+        /* Save seq_num */
+        if (lseek(seqnum_fd, 0, SEEK_SET) == -1) {
+            perror("lseek");
+            exit(EXIT_FAILURE);
+        }
+        if (write(seqnum_fd, &seq_num, sizeof(seq_num)) == -1) {
+            perror("write");
+            exit(EXIT_FAILURE);
+        }
     }
 
     exit(EXIT_SUCCESS);
