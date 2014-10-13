@@ -1,7 +1,7 @@
 TARGETS = svsem_demo svsem_mon svsem_setall svsem_bad_init \
-          svsem_good_init svsem_op
+          svsem_good_init svsem_op svsem_create
 OBJS = svsem_demo.o svsem_mon.o svsem_setall.o svsem_bad_init.o \
-       svsem_good_init.o svsem_op.o
+       svsem_good_init.o svsem_op.o svsem_create.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -24,3 +24,5 @@ svsem_good_init: svsem_good_init.o
 svsem_good_init.o: svsem_good_init.c semun.h
 svsem_op: svsem_op.o
 svsem_op.o: svsem_op.c
+svsem_create: svsem_create.o
+svsem_create.o: svsem_create.c
