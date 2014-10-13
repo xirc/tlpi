@@ -49,6 +49,16 @@
 #define SERVER_SEQNUM_FILE "./fifo_seqnum_server.seqnum"
 
 
+static volatile sig_atomic_t is_running = 1;
+
+
+static void
+cleanup_handler(int sig __attribute__((unused)))
+{
+    is_running = 0;
+}
+
+
 int
 main(int argc __attribute__((unused)),
      char *argv[] __attribute__((unused)))
@@ -59,6 +69,7 @@ main(int argc __attribute__((unused)),
     struct response resp;
     int num_read;
     int seq_num;        /* This is our "service" */
+    struct sigaction sa;
 
     /* Create well-known FIFO, and open it for reading */
     umask(0);   /* So we get the permissions we want */
@@ -85,6 +96,19 @@ main(int argc __attribute__((unused)),
     /* Ignore SIGPIPE */
     if (signal(SIGPIPE, SIG_IGN) == SIG_ERR) {
         perror("signal");
+        exit(EXIT_FAILURE);
+    }
+
+    /* Set cleanup handler */
+    sa.sa_flags = 0;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_handler = cleanup_handler;
+    if (sigaction(SIGINT, &sa, NULL) == -1) {
+        perror("sigaction - SIGINT");
+        exit(EXIT_FAILURE);
+    }
+    if (sigaction(SIGTERM, &sa, NULL) == -1) {
+        perror("sigaction - SIGTERM");
         exit(EXIT_FAILURE);
     }
 
@@ -121,7 +145,7 @@ main(int argc __attribute__((unused)),
     }
 
     /* Read requests and send responses */
-    while (1) {
+    while (is_running) {
         if (read(server_fd, &req, sizeof(struct request)) !=
                 sizeof(struct request))
         {
@@ -161,5 +185,6 @@ main(int argc __attribute__((unused)),
         }
     }
 
+    unlink(SERVER_FIFO);
     exit(EXIT_SUCCESS);
 }
