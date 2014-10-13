@@ -1,5 +1,5 @@
-TARGETS = svsem_demo svsem_mon
-OBJS = svsem_demo.o svsem_mon.o
+TARGETS = svsem_demo svsem_mon svsem_setall
+OBJS = svsem_demo.o svsem_mon.o svsem_setall.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -14,3 +14,5 @@ svsem_demo: svsem_demo.o
 svsem_demo.o: svsem_demo.c semun.h
 svsem_mon: svsem_mon.o
 svsem_mon.o: svsem_mon.c semun.h
+svsem_setall: svsem_setall.o
+svsem_setall.o: svsem_setall.c semun.h
