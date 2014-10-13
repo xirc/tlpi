@@ -1,5 +1,5 @@
-TARGETS = svmsg_demo_server t_ftok
-OBJS = svmsg_demo_server.o t_ftok.o
+TARGETS = svmsg_demo_server t_ftok m_ftok
+OBJS = svmsg_demo_server.o t_ftok.o m_ftok.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -14,3 +14,5 @@ svmsg_demo_server: svmsg_demo_server.o
 svmsg_demo_server.o: svmsg_demo_server.c
 t_ftok: t_ftok.o
 t_ftok.o: t_ftok.c
+m_ftok: m_ftok.o
+m_ftok.o: m_ftok.c
