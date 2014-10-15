@@ -1,7 +1,7 @@
 TARGETS = svshm_xfr_writer svshm_xfr_reader svshm_create \
-          svshm_rm svshm_attach
+          svshm_rm svshm_attach svshm_lock
 OBJS = svshm_xfr_writer.o svshm_xfr_reader.o binary_sems.o svshm_create.o \
-       svshm_rm.o svshm_attach.o
+       svshm_rm.o svshm_attach.o svshm_lock.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -23,3 +23,5 @@ svshm_rm: svshm_rm.o
 svshm_rm.o: svshm_rm.c
 svshm_attach: svshm_attach.o
 svshm_attach.o: svshm_attach.c
+svshm_lock: svshm_lock.o
+svshm_lock.o: svshm_lock.c
