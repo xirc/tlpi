@@ -1,5 +1,5 @@
-TARGETS = mmcat
-OBJS = mmcat.o
+TARGETS = mmcat t_mmap
+OBJS = mmcat.o t_mmap.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -12,3 +12,5 @@ clean:
 
 mmcat: mmcat.o
 mmcat.o: mmcat.c
+t_mmap: t_mmap.o
+t_mmap.o: t_mmap.c
