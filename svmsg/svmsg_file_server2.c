@@ -27,6 +27,9 @@
 #include "svmsg_file2.h"
 
 
+static volatile sig_atomic_t server_id;
+
+
 /* SIGCHLD handler */
 static void
 grim_reaper(int sig __attribute__((unused)))
@@ -39,6 +42,24 @@ grim_reaper(int sig __attribute__((unused)))
         continue;
     }
     errno = saved_errno;
+}
+
+
+/* SIGINT and SIGTERM handler */
+static void
+cleanup_handler(int sig __attribute__((unused)))
+{
+    if (msgctl(server_id, IPC_RMID, NULL) == -1) {
+        syslog(LOG_ERR, "msgctl: %s", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+    if (unlink(SERVER_MSQID_FILE) == -1) {
+        syslog(LOG_ERR, "unlink %s: %s", SERVER_MSQID_FILE, strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+
+    (void) signal(sig, SIG_DFL);
+    (void) raise(sig);
 }
 
 
@@ -120,7 +141,7 @@ main(int argc __attribute__((unused)),
     struct request_msg req;
     pid_t pid;
     ssize_t msg_len;
-    int server_id, server_idfd;
+    int server_idfd;
     struct sigaction sa;
 
     /* becomes daemon */
@@ -146,6 +167,18 @@ main(int argc __attribute__((unused)),
     sa.sa_handler = grim_reaper;
     if (sigaction(SIGCHLD, &sa, NULL) == -1) {
         syslog(LOG_ERR, "sigaction - SIGCHLD: %s", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+    /* Establish SIGINT & SIGTERM handler to cleanup */
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sa.sa_handler = cleanup_handler;
+    if (sigaction(SIGINT, &sa, NULL) == -1) {
+        syslog(LOG_ERR, "sigaction - SIGINT: %s", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+    if (sigaction(SIGTERM, &sa, NULL) == -1) {
+        syslog(LOG_ERR, "sigaction - SIGTERM: %s", strerror(errno));
         exit(EXIT_FAILURE);
     }
 
