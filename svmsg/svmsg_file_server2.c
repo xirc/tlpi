@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
+#include <syslog.h>
 
 #include "svmsg_file2.h"
 
@@ -40,20 +41,35 @@ grim_reaper(int sig __attribute__((unused)))
 
 
 /* Executed in child process: serve a single client */
-static void
+/* For simplicity we don't handle EINTR */
+static int
 serve_request(struct request_msg const *req)
 {
-    int fd;
+    int fd, retc;
     ssize_t num_read;
     struct response_msg resp;
 
+    /* Use syslog */
+    openlog(NULL, LOG_CONS, LOG_USER);
+
+    /* Open serve file */
     fd = open(req->pathname, O_RDONLY);
     if (fd == -1) {
         /* Open failed: send error test */
+        syslog(LOG_NOTICE, "Failed to open file '%s'", req->pathname);
+
         resp.mtype = RESP_MT_FAILURE;
         snprintf(resp.data, sizeof(resp.data), "%s", "Couldn't open");
-        msgsnd(req->client_id, &resp, strlen(resp.data) + 1, 0);
-        exit(EXIT_FAILURE); /* and terminate */
+        if (msgsnd(req->client_id, &resp, strlen(resp.data) + 1, 0) == -1) {
+            syslog(LOG_NOTICE, "Failed to send message(RESP_MT_FAILURE) to client %d",
+                    req->client_id);
+            retc = -1;
+            goto EXIT;
+        }
+
+        syslog(LOG_NOTICE, "Send message(RESP_MT_FAILURE) to client");
+        retc = -1;
+        goto EXIT;
     }
 
     /* Transmit file contents in messages with type RESP_MT_DATA.
@@ -62,13 +78,40 @@ serve_request(struct request_msg const *req)
     resp.mtype = RESP_MT_DATA;
     while ((num_read = read(fd, resp.data, RESP_MSG_SIZE)) > 0) {
         if (msgsnd(req->client_id, &resp, num_read, 0) == -1) {
-            break;
+            syslog(LOG_ERR, "Failed to send message(RESP_MT_DATA) to client %d",
+                    req->client_id);
+            retc = -1;
+            goto EXIT;
         }
+    }
+    if (num_read == -1) {
+        syslog(LOG_ERR, "Failed to read file '%s' (errno=%d)\n",
+                req->pathname, errno);
+        retc = -1;
+        goto EXIT;
     }
 
     /* Send a message of type RESP_MT_END to signify end-of-file */
     resp.mtype = RESP_MT_END;
-    msgsnd(req->client_id, &resp, 0, 0);    /* Zero-length mtext */
+    if (msgsnd(req->client_id, &resp, 0, 0)) {    /* Zero-length mtext */
+        syslog(LOG_ERR, "Failed to send message(RESP_MT_END) to client %d",
+                req->client_id);
+        retc = -1;
+        goto EXIT;
+    }
+
+    /* Success */
+    retc = 0;
+
+EXIT:
+    if (fd != -1) {
+        if (close(fd) == -1) {
+            syslog(LOG_ERR, "Failed to close file '%s'", req->pathname);
+            retc = -1;
+        }
+    }
+    closelog();
+    return retc;
 }
 
 
@@ -138,8 +181,11 @@ main(int argc __attribute__((unused)),
 
         /* Child handles request */
         if (pid == 0) {
-            serve_request(&req);
-            _exit(EXIT_SUCCESS);
+            if (serve_request(&req) == 0) {
+                _exit(EXIT_SUCCESS);
+            } else {
+                exit(EXIT_FAILURE);
+            }
         }
 
         /* Parent loops to receive next client request */
