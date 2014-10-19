@@ -1,11 +1,11 @@
 TARGETS = svsem_demo svsem_mon svsem_setall svsem_bad_init \
           svsem_good_init svsem_op svsem_create svsem_rm \
           svsem_info t_binary_sems fork_sem_sync \
-          t_event_flag
+          t_event_flag t_binary_sems_fifo
 OBJS = svsem_demo.o svsem_mon.o svsem_setall.o svsem_bad_init.o \
        svsem_good_init.o svsem_op.o svsem_create.o svsem_rm.o \
        svsem_info.o t_binary_sems.o binary_sems.o fork_sem_sync.o \
-       t_event_flag.o event_flag.o
+       t_event_flag.o event_flag.o t_binary_sems_fifo.o binary_sems_fifo.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -42,3 +42,6 @@ fork_sem_sync.o: fork_sem_sync.c binary_sems.h semun.h
 t_event_flag: t_event_flag.o event_flag.o
 t_event_flag.o: t_event_flag.c event_flag.h
 event_flag.o: event_flag.c event_flag.h semun.h
+t_binary_sems_fifo: t_binary_sems_fifo.o binary_sems_fifo.o
+t_binary_sems_fifo.o: t_binary_sems_fifo.c binary_sems_fifo.h
+binary_sems_fifo.o: binary_sems_fifo.c binary_sems_fifo.h semun.h
