@@ -13,6 +13,7 @@
 \*************************************************************************/
 
 
+#define _GNU_SOURCE
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
@@ -21,6 +22,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <syslog.h>
+#include <string.h>
 
 #include "svmsg_file2.h"
 
@@ -48,9 +50,6 @@ serve_request(struct request_msg const *req)
     int fd, retc;
     ssize_t num_read;
     struct response_msg resp;
-
-    /* Use syslog */
-    openlog(NULL, LOG_CONS, LOG_USER);
 
     /* Open serve file */
     fd = open(req->pathname, O_RDONLY);
@@ -110,7 +109,6 @@ EXIT:
             retc = -1;
         }
     }
-    closelog();
     return retc;
 }
 
@@ -125,11 +123,20 @@ main(int argc __attribute__((unused)),
     int server_id, server_idfd;
     struct sigaction sa;
 
+    /* becomes daemon */
+    if (daemon(0, 0) == -1) {
+        perror("daemon");
+        exit(EXIT_FAILURE);
+    }
+
+    /* Use syslog */
+    openlog(NULL, LOG_CONS, LOG_USER);
+
     /* Create server message queue */
     server_id = msgget(IPC_PRIVATE, IPC_CREAT | IPC_EXCL |
             S_IRUSR | S_IWUSR | S_IWGRP);   /* rw--w---- */
     if (server_id == -1) {
-        perror("msgget");
+        syslog(LOG_ERR, "msgget IPC_PRIVATE: %s", strerror(errno));
         exit(EXIT_FAILURE);
     }
 
@@ -138,7 +145,7 @@ main(int argc __attribute__((unused)),
     sa.sa_flags = SA_RESTART;
     sa.sa_handler = grim_reaper;
     if (sigaction(SIGCHLD, &sa, NULL) == -1) {
-        perror("sigaction");
+        syslog(LOG_ERR, "sigaction - SIGCHLD: %s", strerror(errno));
         exit(EXIT_FAILURE);
     }
 
@@ -147,17 +154,17 @@ main(int argc __attribute__((unused)),
                 O_RDWR | O_CREAT | O_EXCL,
                 S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
     if (server_idfd == -1) {
-        perror("open " SERVER_MSQID_FILE);
+        syslog(LOG_ERR, "open %s: %s", SERVER_MSQID_FILE, strerror(errno));
         exit(EXIT_FAILURE);
     }
     if (write(server_idfd, (void*)&server_id, sizeof(server_id)) !=
             sizeof(server_id))
     {
-        fprintf(stderr, "cannot write key to file \"%s\"\n", SERVER_MSQID_FILE);
+        syslog(LOG_ERR, "cannot write key to file \"%s\"\n", SERVER_MSQID_FILE);
         exit(EXIT_FAILURE);
     }
     if (close(server_idfd) == -1) {
-        perror("close");
+        syslog(LOG_ERR, "close %s: %s", SERVER_MSQID_FILE, strerror(errno));
         exit(EXIT_FAILURE);
     }
 
@@ -168,14 +175,14 @@ main(int argc __attribute__((unused)),
             if (errno == EINTR) {   /* Interrupted by SIGCHLD handler ? */
                 continue;           /* ... then restart msgrcv() */
             }
-            perror("msgrcv");
+            syslog(LOG_ERR, "msgrcv: %s", strerror(errno));
             break;
         }
 
         /* Create child process */
         pid = fork();
         if (pid == -1) {
-            perror("fork");
+            syslog(LOG_ERR, "fork: %s", strerror(errno));
             break;
         }
 
@@ -193,12 +200,12 @@ main(int argc __attribute__((unused)),
 
     /* If msgrcv() or fork() fails, remove server MQ and exit */
     if (msgctl(server_id, IPC_RMID, NULL) == -1) {
-        perror("msgctl");
+        syslog(LOG_ERR, "msgctl: %s", strerror(errno));
         exit(EXIT_FAILURE);
     }
     /* And delete server key file */
     if (unlink(SERVER_MSQID_FILE) == -1) {
-        perror("unlink " SERVER_MSQID_FILE);
+        syslog(LOG_ERR, "unlink %s: %s", SERVER_MSQID_FILE, strerror(errno));
         exit(EXIT_FAILURE);
     }
 
