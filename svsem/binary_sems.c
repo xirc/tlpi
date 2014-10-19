@@ -55,7 +55,7 @@ init_sem_in_use(int sem_id, int sem_num)
 
 /* Reserve semaphore (blocking), return 0 on success, or -1 with 'errno'
  * set to EINTR if operation was interrupted by a signal handler */
-/*Reserve semaphore - decrement it by 1 */
+/* Reserve semaphore - decrement it by 1 */
 int
 reserve_sem(int sem_id, int sem_num)
 {
@@ -69,6 +69,23 @@ reserve_sem(int sem_id, int sem_num)
         if (errno != EINTR || !bs_retry_on_eintr) {
             return -1;
         }
+    }
+    return 0;
+}
+
+
+/* Reserve semaphore - decrement it by 1 */
+int
+reserve_sem_nb(int sem_id, int sem_num)
+{
+    struct sembuf sops;
+
+    sops.sem_num = sem_num;
+    sops.sem_op = -1;
+    sops.sem_flg = IPC_NOWAIT | (bs_use_sem_undo ? SEM_UNDO : 0);
+
+    if (semop(sem_id, &sops, 1) == -1) {
+        return -1;
     }
     return 0;
 }

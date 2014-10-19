@@ -89,9 +89,24 @@ main(int argc __attribute__((unused)),
     }
     psemval(semid, 0);
 
+    /* Reserve semaphore conditionally */
+    printf("reserve_sem_nb expects FAIL\n");
+    if (reserve_sem_nb(semid, 0) == -1) {
+        perror("reserve_sem_nb");
+        /* Do not exit */
+    }
+    psemval(semid, 0);
+
     printf("release_sem\n");
     if (release_sem(semid, 0) == -1) {
         perror("release_sem");
+        exit(EXIT_FAILURE);
+    }
+    psemval(semid, 0);
+
+    printf("reserve_sem_nb\n");
+    if (reserve_sem_nb(semid, 0) == -1) {
+        perror("reserve_sem_nb");
         exit(EXIT_FAILURE);
     }
     psemval(semid, 0);
