@@ -27,6 +27,9 @@
 #include "svmsg_file2.h"
 
 
+#define TIMEOUT 3 /* secs */
+
+
 static volatile sig_atomic_t server_id;
 
 
@@ -62,13 +65,46 @@ cleanup_handler(int sig __attribute__((unused)))
     (void) raise(sig);
 }
 
+static void
+nop_handler(int sig __attribute__((unused)))
+{
+    /* do nothing */
+}
+
+static int
+timed_msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg, time_t timeout_s)
+{
+    int retc;
+    int saved_errno;
+    struct sigaction sa;
+    struct sigaction old_sa;
+
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sa.sa_handler = nop_handler;
+    if (sigaction(SIGALRM, &sa, &old_sa) == -1) {
+        return -1;
+    }
+
+    alarm(timeout_s);
+    retc = msgsnd(msqid, msgp, msgsz, msgflg);
+    saved_errno = errno;
+    alarm(0);
+
+    if (sigaction(SIGALRM, &old_sa, NULL) == -1) {
+        return -1;
+    }
+
+    errno = saved_errno;
+    return retc;
+}
 
 /* Executed in child process: serve a single client */
 /* For simplicity we don't handle EINTR */
-static int
+static void
 serve_request(struct request_msg const *req)
 {
-    int fd, retc;
+    int fd;
     ssize_t num_read;
     struct response_msg resp;
 
@@ -83,13 +119,11 @@ serve_request(struct request_msg const *req)
         if (msgsnd(req->client_id, &resp, strlen(resp.data) + 1, 0) == -1) {
             syslog(LOG_NOTICE, "Failed to send message(RESP_MT_FAILURE) to client %d",
                     req->client_id);
-            retc = -1;
-            goto EXIT;
+            exit(EXIT_FAILURE);
         }
 
         syslog(LOG_NOTICE, "Send message(RESP_MT_FAILURE) to client");
-        retc = -1;
-        goto EXIT;
+        exit(EXIT_FAILURE);
     }
 
     /* Transmit file contents in messages with type RESP_MT_DATA.
@@ -97,18 +131,23 @@ serve_request(struct request_msg const *req)
      * since we cannot notify client. */
     resp.mtype = RESP_MT_DATA;
     while ((num_read = read(fd, resp.data, RESP_MSG_SIZE)) > 0) {
-        if (msgsnd(req->client_id, &resp, num_read, 0) == -1) {
-            syslog(LOG_ERR, "Failed to send message(RESP_MT_DATA) to client %d",
-                    req->client_id);
-            retc = -1;
-            goto EXIT;
+        if (timed_msgsnd(req->client_id, &resp, num_read, 0, TIMEOUT) == -1) {
+            if (errno == EINTR) {
+                syslog(LOG_ERR, "No response from client %d", req->client_id);
+                if (msgctl(req->client_id, IPC_RMID, NULL) == -1) {
+                    syslog(LOG_ERR, "Cannot remove client message queue");
+                }
+            } else {
+                syslog(LOG_ERR, "Failed to send message(RESP_MT_DATA) to client %d",
+                        req->client_id);
+            }
+            exit(EXIT_FAILURE);
         }
     }
     if (num_read == -1) {
         syslog(LOG_ERR, "Failed to read file '%s' (errno=%d)\n",
                 req->pathname, errno);
-        retc = -1;
-        goto EXIT;
+        exit(EXIT_FAILURE);
     }
 
     /* Send a message of type RESP_MT_END to signify end-of-file */
@@ -116,21 +155,15 @@ serve_request(struct request_msg const *req)
     if (msgsnd(req->client_id, &resp, 0, 0)) {    /* Zero-length mtext */
         syslog(LOG_ERR, "Failed to send message(RESP_MT_END) to client %d",
                 req->client_id);
-        retc = -1;
-        goto EXIT;
+        exit(EXIT_FAILURE);
     }
 
-    /* Success */
-    retc = 0;
-
-EXIT:
-    if (fd != -1) {
-        if (close(fd) == -1) {
-            syslog(LOG_ERR, "Failed to close file '%s'", req->pathname);
-            retc = -1;
-        }
+    if (close(fd) == -1) {
+        syslog(LOG_ERR, "Failed to close file '%s'", req->pathname);
+        exit(EXIT_FAILURE);
     }
-    return retc;
+
+    return;
 }
 
 
@@ -221,11 +254,8 @@ main(int argc __attribute__((unused)),
 
         /* Child handles request */
         if (pid == 0) {
-            if (serve_request(&req) == 0) {
-                _exit(EXIT_SUCCESS);
-            } else {
-                exit(EXIT_FAILURE);
-            }
+            serve_request(&req);
+            _exit(EXIT_SUCCESS);
         }
 
         /* Parent loops to receive next client request */
