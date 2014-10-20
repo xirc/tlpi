@@ -1,9 +1,11 @@
 TARGETS = svshm_xfr_writer svshm_xfr_reader svshm_create \
           svshm_rm svshm_attach svshm_lock svshm_unlock \
-          svshm_info svshm_mon
+          svshm_info svshm_mon \
+          svshm_xfr_writer2 svshm_xfr_reader2
 OBJS = svshm_xfr_writer.o svshm_xfr_reader.o binary_sems.o svshm_create.o \
        svshm_rm.o svshm_attach.o svshm_lock.o svshm_unlock.o \
-       svshm_info.o svshm_mon.o
+       svshm_info.o svshm_mon.o \
+       svshm_xfr_writer2.o svshm_xfr_reader2.o event_flag.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -33,3 +35,7 @@ svshm_info: svshm_info.o
 svshm_info.o: svshm_info.c
 svshm_mon: svshm_mon.o
 svshm_mon.o: svshm_mon.c
+svshm_xfr_writer2: svshm_xfr_writer2.o event_flag.o
+svshm_xfr_writer2.o: svshm_xfr_writer2.c svshm_xfr.h event_flag.h
+svshm_xfr_reader2: svshm_xfr_reader2.o event_flag.o
+svshm_xfr_reader2.o: svshm_xfr_reader2.c svshm_xfr.h event_flag.h
