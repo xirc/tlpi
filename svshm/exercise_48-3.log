@@ -1,0 +1,62 @@
+===
+BUF_SIZE=1
+Received 1048576 bytes (1048576 xf
+real	0m7.040s
+user	0m0.858s
+sys	0m6.174s
+
+===
+BUF_SIZE=8
+Received 1048576 bytes (131072 xf
+real	0m0.945s
+user	0m0.115s
+sys	0m0.827s
+
+===
+BUF_SIZE=16
+Received 1048576 bytes (65536 xfrs)
+
+real	0m0.423s
+user	0m0.045s
+sys	0m0.377s
+
+===
+BUF_SIZE=32
+Received 1048576 bytes (32768 xfrs)
+
+real	0m0.235s
+user	0m0.030s
+sys	0m0.202s
+
+===
+BUF_SIZE=64
+Received 1048576 bytes (16384 xf
+real	0m0.117s
+user	0m0.014s
+sys	0m0.101s
+
+===
+BUF_SIZE=256
+Received 1048576 bytes (4096 xf
+real	0m0.034s
+user	0m0.001s
+sys	0m0.031s
+
+===
+BUF_SIZE=1024
+Sent 1048576 bytes (1024 xfrs)
+Received 1048576 bytes (1024 xfrs)
+
+real	0m0.015s
+user	0m0.002s
+sys	0m0.012s
+
+===
+BUF_SIZE=8096
+Sent 1048576 bytes (130 xfrs)
+Received 1048576 bytes (130 xfrs)
+
+real	0m0.009s
+user	0m0.000s
+sys	0m0.007s
+
