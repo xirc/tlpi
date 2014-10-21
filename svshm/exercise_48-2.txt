@@ -1,0 +1,32 @@
+;;Why this code is wrong?
+svshm_xfr_reader.c
+  for (xfrs = 0, bytes = 0; shmp->cnt != 0; xfrs++, bytes += shmp->cnt) {
+    reserve_sem(semid, READ_SEM);
+    if (write(STDOUT_FILENO, shmp->buf, shmp->cnt) != shmp->cnt) {
+      /* ERROR */
+    }
+    release_sem(semid, WRITE_SEM);
+  }
+
+;; EXAMPLE
+[vagrant@localhost section48]$ ./svshm_xfr_writer < /etc/services &
+[1] 14149
+[vagrant@localhost section48]$ ./svshm_xfr_reader > dat
+Sent 641020 bytes (626 xfrs)
+Received 641020 bytes (626 xfrs)
+[1]+  終了                  ./svshm_xfr_writer < /etc/services
+[vagrant@localhost section48]$ ./svshm_xfr_writer < /etc/services &
+[1] 14151
+[vagrant@localhost section48]$ ./svshm_xfr_reader_wrong > dat2
+Sent 641020 bytes (626 xfrs)
+Received 639996 bytes (626 xfrs)
+[1]+  終了                  ./svshm_xfr_writer < /etc/services
+[vagrant@localhost section48]$ diff -q /etc/services dat
+[vagrant@localhost section48]$ diff -q /etc/services dat2
+[vagrant@localhost section48]$
+
+;; WHY
+for文の bytes+=shmp->cnt が排他制御されていないため、
+writerによるshmp->cntの書き込みと、
+readerによるshmp->cntの読み込みに競合状態が発生する。
+従って、readerで誤った転送バイト数を表示することがある。
