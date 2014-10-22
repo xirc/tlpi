@@ -53,6 +53,14 @@ print_shm_ds(const struct shmid_ds *ds)
 
     printf("Creator PID:               %ld\n", (long) ds->shm_cpid);
     printf("PID of last attach/detach: %ld\n", (long) ds->shm_lpid);
+
+    printf("Key:                       %d\n", ds->shm_perm.__key);
+    printf("UID:                       %ld\n", (long) ds->shm_perm.uid);
+    printf("GID:                       %ld\n", (long) ds->shm_perm.gid);
+    printf("CUID:                      %ld\n", (long) ds->shm_perm.cuid);
+    printf("CGID:                      %ld\n", (long) ds->shm_perm.cgid);
+    printf("MODE:                      %o\n", ds->shm_perm.mode);
+    printf("SEQ:                       %d\n", ds->shm_perm.__seq);
 }
 
 
