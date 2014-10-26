@@ -1,7 +1,9 @@
 TARGETS = mmcat t_mmap anon_mmap t_mremap mcp \
-          mmap_xfr_reader mmap_xfr_writer t_mmap2
+          mmap_xfr_reader mmap_xfr_writer t_mmap2 \
+          mmap_nonliner
 OBJS = mmcat.o t_mmap.o anon_mmap.o t_mremap.o mcp.o \
-       mmap_xfr_reader.o mmap_xfr_writer.o binary_sems.o t_mmap2.o
+       mmap_xfr_reader.o mmap_xfr_writer.o binary_sems.o t_mmap2.o \
+       mmap_nonliner.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -29,3 +31,5 @@ mmap_xfr_writer.o: mmap_xfr_writer.c binary_sems.o
 binary_sems.o: binary_sems.c binary_sems.h
 t_mmap2: t_mmap2.o
 t_mmap2.o: t_mmap2.c
+mmap_nonliner: mmap_nonliner.o
+mmap_nonliner.o: mmap_nonliner.c
