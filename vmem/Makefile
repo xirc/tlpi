@@ -1,5 +1,5 @@
-TARGETS = t_mprotect
-OBJS = t_mprotect.o
+TARGETS = t_mprotect memlock
+OBJS = t_mprotect.o memlock.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -12,3 +12,5 @@ clean:
 
 t_mprotect: t_mprotect.o
 t_mprotect.o: t_mprotect.c
+memlock: memlock.o
+memlock.o: memlock.c
