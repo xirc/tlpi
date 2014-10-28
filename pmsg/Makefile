@@ -1,5 +1,7 @@
-TARGETS = pmsg_unlink pmsg_create pmsg_getattr pmsg_send pmsg_receive
-OBJS = pmsg_unlink.o pmsg_create.o pmsg_getattr.o pmsg_send.o pmsg_receive.o
+TARGETS = pmsg_unlink pmsg_create pmsg_getattr pmsg_send pmsg_receive \
+          mq_notify_sig
+OBJS = pmsg_unlink.o pmsg_create.o pmsg_getattr.o pmsg_send.o pmsg_receive.o \
+       mq_notify_sig.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS = -lrt
 RM = rm -f
@@ -20,3 +22,5 @@ pmsg_send: pmsg_send.o
 pmsg_send.o: pmsg_send.c
 pmsg_receive: pmsg_receive.o
 pmsg_receive.o: pmsg_receive.c
+mq_notify_sig: mq_notify_sig.o
+mq_notify_sig.o: mq_notify_sig.c
