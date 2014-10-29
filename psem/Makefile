@@ -1,5 +1,5 @@
-TARGETS = psem_create psem_unlink
-OBJS = psem_create.o psem_unlink.o
+TARGETS = psem_create psem_unlink psem_wait
+OBJS = psem_create.o psem_unlink.o psem_wait.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS = -lrt
 RM = rm -f
@@ -14,3 +14,5 @@ psem_create: psem_create.o
 psem_create.o: psem_create.c
 psem_unlink: psem_unlink.o
 psem_unlink.o: psem_unlink.c
+psem_wait: psem_wait.o
+psem_wait.o: psem_wait.c
