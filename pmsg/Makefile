@@ -1,9 +1,11 @@
 TARGETS = pmsg_unlink pmsg_create pmsg_getattr pmsg_send pmsg_receive \
           mq_notify_sig mq_notify_thread pmsg_receive2 \
-          pmsg_seqnum_server pmsg_seqnum_client
+          pmsg_seqnum_server pmsg_seqnum_client \
+          pmsg_file_server pmsg_file_client
 OBJS = pmsg_unlink.o pmsg_create.o pmsg_getattr.o pmsg_send.o pmsg_receive.o \
        mq_notify_sig.o mq_notify_thread.o pmsg_receive2.o \
-       pmsg_seqnum_server.o pmsg_seqnum_client.o
+       pmsg_seqnum_server.o pmsg_seqnum_client.o \
+       pmsg_file_server.o pmsg_file_client.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS = -lrt
 RM = rm -f
@@ -34,3 +36,7 @@ pmsg_seqnum_server: pmsg_seqnum_server.o
 pmsg_seqnum_server.o: pmsg_seqnum_server.c pmsg_seqnum.h
 pmsg_seqnum_client: pmsg_seqnum_client.o
 pmsg_seqnum_client.o: pmsg_seqnum_client.c pmsg_seqnum.h
+pmsg_file_server: pmsg_file_server.o
+pmsg_file_server.o: pmsg_file_server.c pmsg_file.h
+pmsg_file_client: pmsg_file_client.o
+pmsg_file_client.o: pmsg_file_client.c pmsg_file.h
