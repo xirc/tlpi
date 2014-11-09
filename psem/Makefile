@@ -1,7 +1,7 @@
 TARGETS = psem_create psem_unlink psem_wait psem_post psem_getvalue \
-          thread_incr_psem psem_xfr
+          thread_incr_psem psem_xfr psem_timedwait
 OBJS = psem_create.o psem_unlink.o psem_wait.o psem_post.o psem_getvalue.o \
-       thread_incr_psem.o psem_xfr.o
+       thread_incr_psem.o psem_xfr.o psem_timedwait.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS = -lrt
 RM = rm -f
@@ -26,3 +26,5 @@ thread_incr_psem: thread_incr_psem.o
 thread_incr_psem.o: thread_incr_psem.c
 psem_xfr: psem_xfr.o
 psem_xfr.o: psem_xfr.c
+psem_timedwait: psem_timedwait.o
+psem_timedwait.o: psem_timedwait.c
