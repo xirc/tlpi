@@ -1,7 +1,9 @@
 TARGETS = t_flock i_fcntl_locking t_region_locking \
-          t_create_pid_file flock_deadlock flock_dup flock_open2
+          t_create_pid_file flock_deadlock flock_dup flock_open2 \
+          fcntl_locking_spec_a fcntl_locking_spec_b
 OBJS = t_flock.o i_fcntl_locking.o t_region_locking.o region_locking.o \
-       t_create_pid_file.o create_pid_file.o flock_deadlock.o flock_dup.o flock_open2.o
+       t_create_pid_file.o create_pid_file.o flock_deadlock.o flock_dup.o flock_open2.o \
+          fcntl_locking_spec_a.o fcntl_locking_spec_b.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -28,3 +30,7 @@ flock_dup: flock_dup.o
 flock_dup.o: flock_dup.c
 flock_open2: flock_open2.o
 flock_open2.o: flock_open2.c
+fcntl_locking_spec_a: fcntl_locking_spec_a.o
+fcntl_locking_spec_a.o: fcntl_locking_spec_a.c
+fcntl_locking_spec_b: fcntl_locking_spec_b.o
+fcntl_locking_spec_b.o: fcntl_locking_spec_b.c
