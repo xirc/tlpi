@@ -3,12 +3,12 @@ TARGETS = us_xfr_sv us_xfr_cl ud_ucase_sv ud_ucase_cl ud_dgram \
           byteorder
 OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
        us_xfr2_sv.o us_xfr2_cl.o us_seqnum_server.o us_seqnum_client.o ud_dgram3.o \
-       byteorder.o
+       byteorder.o read_line.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
 
-all: $(TARGETS)
+all: $(TARGETS) $(OBJS)
 clean:
 	$(RM) $(TARGETS) $(OBJS)
 .c.o:
@@ -36,3 +36,4 @@ ud_dgram3: ud_dgram3.o
 ud_dgram3.o: ud_dgram3.c
 byteorder: byteorder.o
 byteorder.o: byteorder.c
+read_line.o: read_line.c read_line.h
