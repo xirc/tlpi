@@ -1,7 +1,9 @@
 TARGETS = us_xfr_sv us_xfr_cl ud_ucase_sv ud_ucase_cl ud_dgram \
-          us_xfr2_sv us_xfr2_cl us_seqnum_server us_seqnum_client ud_dgram3
+          us_xfr2_sv us_xfr2_cl us_seqnum_server us_seqnum_client ud_dgram3 \
+          byteorder
 OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
-       us_xfr2_sv.o us_xfr2_cl.o us_seqnum_server.o us_seqnum_client.o ud_dgram3.o
+       us_xfr2_sv.o us_xfr2_cl.o us_seqnum_server.o us_seqnum_client.o ud_dgram3.o \
+       byteorder.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -32,3 +34,5 @@ us_seqnum_client: us_seqnum_client.o
 us_seqnum_client.o: us_seqnum_client.c us_seqnum.h
 ud_dgram3: ud_dgram3.o
 ud_dgram3.o: ud_dgram3.c
+byteorder: byteorder.o
+byteorder.o: byteorder.c
