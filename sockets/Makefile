@@ -1,11 +1,13 @@
 TARGETS = us_xfr_sv us_xfr_cl ud_ucase_sv ud_ucase_cl ud_dgram \
           us_xfr2_sv us_xfr2_cl us_seqnum_server us_seqnum_client ud_dgram3 \
           byteorder i6d_ucase_sv i6d_ucase_cl is_seqnum_sv is_seqnum_cl \
-          t_inet_sockets t_inet_aton_ntoa t_gethostbyname
+          t_inet_sockets t_inet_aton_ntoa t_gethostbyname \
+          t_gethostbyaddr
 OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
        us_xfr2_sv.o us_xfr2_cl.o us_seqnum_server.o us_seqnum_client.o ud_dgram3.o \
        byteorder.o read_line.o i6d_ucase_sv.o i6d_ucase_cl.o is_seqnum_sv.o is_seqnum_cl.o \
-       t_inet_sockets.o inet_sockets.o t_inet_aton_ntoa.o t_gethostbyname.o
+       t_inet_sockets.o inet_sockets.o t_inet_aton_ntoa.o t_gethostbyname.o \
+       t_gethostbyaddr.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -54,3 +56,5 @@ t_inet_aton_ntoa: t_inet_aton_ntoa.o
 t_inet_aton_ntoa.o: t_inet_aton_ntoa.c
 t_gethostbyname: t_gethostbyname.o
 t_gethostbyname.o: t_gethostbyname.c
+t_gethostbyaddr: t_gethostbyaddr.o
+t_gethostbyaddr.o: t_gethostbyaddr.c
