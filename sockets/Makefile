@@ -1,9 +1,9 @@
 TARGETS = us_xfr_sv us_xfr_cl ud_ucase_sv ud_ucase_cl ud_dgram \
           us_xfr2_sv us_xfr2_cl us_seqnum_server us_seqnum_client ud_dgram3 \
-          byteorder i6d_ucase_sv i6d_ucase_cl
+          byteorder i6d_ucase_sv i6d_ucase_cl is_seqnum_sv is_seqnum_cl
 OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
        us_xfr2_sv.o us_xfr2_cl.o us_seqnum_server.o us_seqnum_client.o ud_dgram3.o \
-       byteorder.o read_line.o i6d_ucase_sv.o i6d_ucase_cl.o
+       byteorder.o read_line.o i6d_ucase_sv.o i6d_ucase_cl.o is_seqnum_sv.o is_seqnum_cl.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -41,3 +41,7 @@ i6d_ucase_sv: i6d_ucase_sv.o
 i6d_ucase_sv.o: i6d_ucase_sv.c i6d_ucase.h
 i6d_ucase_cl: i6d_ucase_cl.o
 i6d_ucase_cl.o: i6d_ucase_cl.c i6d_ucase.h
+is_seqnum_sv: is_seqnum_sv.o read_line.o
+is_seqnum_sv.o: is_seqnum_sv.c is_seqnum.h
+is_seqnum_cl: is_seqnum_cl.o read_line.o
+is_seqnum_cl.o: is_seqnum_cl.c is_seqnum.h
