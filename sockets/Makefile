@@ -5,7 +5,7 @@ TARGETS = us_xfr_sv us_xfr_cl ud_ucase_sv ud_ucase_cl ud_dgram \
           t_gethostbyaddr t_getservbyname t_getservbyport \
           t_readline2 is_seqnum_sv2 is_seqnum_cl2 \
           is_seqnum_sv3 is_seqnum_cl3 \
-          us_xfr3_sv us_xfr3_cl
+          us_xfr3_sv us_xfr3_cl is_sock3
 OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
        us_xfr2_sv.o us_xfr2_cl.o us_seqnum_server.o us_seqnum_client.o ud_dgram3.o \
        byteorder.o read_line.o i6d_ucase_sv.o i6d_ucase_cl.o is_seqnum_sv.o is_seqnum_cl.o \
@@ -13,7 +13,7 @@ OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
        t_gethostbyaddr.o t_getservbyname.o t_getservbyport.o \
        t_readline2.o readline2.o is_seqnum_sv2.o is_seqnum_cl2.o \
        is_seqnum_sv3.o is_seqnum_cl3.o \
-       us_xfr3_sv.o us_xfr3_cl.o unix_sockets.o
+       us_xfr3_sv.o us_xfr3_cl.o unix_sockets.o is_sock3.o
 
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
@@ -85,3 +85,5 @@ us_xfr3_sv.o: us_xfr3_sv.c us_xfr3.h unix_sockets.h
 us_xfr3_cl: us_xfr3_cl.o unix_sockets.o
 us_xfr3_cl.o: us_xfr3_cl.c us_xfr3.h unix_sockets.h
 unix_sockets.o: unix_sockets.c unix_sockets.h
+is_sock3: is_sock3.o inet_sockets.o
+is_sock3.o: is_sock3.c inet_sockets.h
