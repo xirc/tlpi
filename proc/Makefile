@@ -1,5 +1,5 @@
-TARGETS = mem_segments necho
-OBJS = mem_segments.o necho.o
+TARGETS = mem_segments necho display_env
+OBJS = mem_segments.o necho.o display_env.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -14,3 +14,5 @@ mem_segments: mem_segments.o
 mem_segments.o: mem_segments.c
 necho: necho.o
 necho.o: necho.c
+display_env: display_env.o
+display_env.o: display_env.c
