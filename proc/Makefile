@@ -1,5 +1,5 @@
-TARGETS = mem_segments
-OBJS = mem_segments.o
+TARGETS = mem_segments necho
+OBJS = mem_segments.o necho.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -12,3 +12,5 @@ clean:
 
 mem_segments: mem_segments.o
 mem_segments.o: mem_segments.c
+necho: necho.o
+necho.o: necho.c
