@@ -1,5 +1,5 @@
-TARGETS = copy
-OBJS = copy.o
+TARGETS = copy seek_io
+OBJS = copy.o seek_io.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -10,3 +10,5 @@ clean:
 
 copy: copy.o
 copy.o: copy.c
+seek_io: seek_io.o
+seek_io.o: seek_io.c
