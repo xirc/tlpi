@@ -1,7 +1,7 @@
 TARGETS = copy seek_io tee cp \
-          bad_exclusive_open t_readv
+          bad_exclusive_open t_readv large_file
 OBJS = copy.o seek_io.o tee.o cp.o \
-       bad_exclusive_open.o t_readv.o
+       bad_exclusive_open.o t_readv.o large_file.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -22,3 +22,5 @@ bad_exclusive_open: bad_exclusive_open.o
 bad_exclusive_open.o: bad_exclusive_open.c
 t_readv: t_readv.o
 t_readv.o: t_readv.c
+large_file: large_file.o
+large_file.o: large_file.c
