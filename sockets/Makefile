@@ -7,7 +7,7 @@ TARGETS = us_xfr_sv us_xfr_cl ud_ucase_sv ud_ucase_cl ud_dgram \
           is_seqnum_sv3 is_seqnum_cl3 \
           us_xfr3_sv us_xfr3_cl is_sock3 id_echo_sv id_echo_cl \
           is_echo_sv is_echo_inetd_sv is_echo_sv2 is_echo_sv3 \
-          t_rdwrn
+          t_rdwrn is_echo_cl
 OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
        us_xfr2_sv.o us_xfr2_cl.o us_seqnum_server.o us_seqnum_client.o ud_dgram3.o \
        byteorder.o read_line.o i6d_ucase_sv.o i6d_ucase_cl.o is_seqnum_sv.o is_seqnum_cl.o \
@@ -17,7 +17,7 @@ OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
        is_seqnum_sv3.o is_seqnum_cl3.o \
        us_xfr3_sv.o us_xfr3_cl.o unix_sockets.o is_sock3.o id_echo_sv.o id_echo_cl.o \
        is_echo_sv.o is_echo_inetd_sv.o is_echo_sv2.o is_echo_sv3.o \
-       t_rdwrn.o rdwrn.o
+       t_rdwrn.o rdwrn.o is_echo_cl.o
 
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
@@ -106,3 +106,5 @@ is_echo_sv3.o: is_echo_sv3.c inet_sockets.h
 t_rdwrn: t_rdwrn.o rdwrn.o
 t_rdwrn.o: t_rdwrn.c rdwrn.h
 rdwrn.o: rdwrn.c rdwrn.h
+is_echo_cl: is_echo_cl.o inet_sockets.o
+is_echo_cl.o: is_echo_cl.c inet_sockets.h
