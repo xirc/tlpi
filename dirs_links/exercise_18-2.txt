@@ -1,0 +1,14 @@
+次のchmod()がエラーとなる理由を述べよ。
+
+mkdir("test", S_IRUSR | S_IWUSR | S_IXUSR);
+chdir("test");
+fd = open("myfile", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+symlink("myfile", "../mylink");
+chmod("../mylink", S_IRUSR);
+
+
+../mylink -> ./mylink
+./myfile
+mylinkは相対パスでmyfileを参照しているため、../myfileを参照している。
+myfileは./myfileに存在しており、../myfileは存在しないため、mylinkはdangling linkである。
+従って、chmodはエラーENOENTとなる。

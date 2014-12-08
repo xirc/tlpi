@@ -1,0 +1,12 @@
+[vagrant@localhost dirs_links]$ time ./how_chdir 1000000
+use chdir
+
+real    0m0.851s
+user    0m0.075s
+sys     0m0.771s
+[vagrant@localhost dirs_links]$ time ./how_chdir 1000000 1
+use fchdir
+
+real    0m0.412s
+user    0m0.064s
+sys     0m0.344s
