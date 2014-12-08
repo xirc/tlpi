@@ -1,0 +1,9 @@
+3-1.
+  Linux固有のreboot()システムコールによりシステムを再起動する場合、
+  第2引数magic2にはいずれかのマジックナンバを指定する必要がある
+  (LINUX_REBOOT_MAGIC2など)。このマジックナンバの意味を答えなさい。
+
+/usr/include/linux/reboot.h
+>> LINUX_REBOOT_MAGIC1     0xfee1dead
+
+カーネル開発者のジョーク FEEL DEAD
