@@ -1,0 +1,19 @@
+[vagrant@localhost section22]$ time ./sig_speed_sigsuspend 1000000
+
+real    0m5.618s
+user    0m0.709s
+sys     0m1.868s
+
+[vagrant@localhost section22]$ time ./sig_speed_sigwaitinfo 1000000
+
+real    0m3.339s
+user    0m0.297s
+sys     0m1.357s
+
+
+sigsuspend  5.618s
+sigwaitinfo 3.339s
+------------------
+            2.279s - 40.56%
+
+sigwaitinfo を用いた方が、sigsuspend を用いるよりも 40.56%高速
