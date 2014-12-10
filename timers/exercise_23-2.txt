@@ -1,0 +1,14 @@
+* nanosleep()を用いた場合
+  t_nanosleep_with_interrupts
+  >>> t_nanosleep 10 0
+  >>> Slept for: 11.374048 secs
+
+* clock_nanosleep()を用いた場合
+  t_clock_nanosleep_with_interrupts
+  >>> t_clock_nanosleep 10 0
+  >>> Slept for: 10.000304 secs
+
+nanosleep()を用いて、signalによってインタラプトされた場合、
+残り時間はソフトウェアクロック(jiffies) の倍数に丸め上げられる。
+一方、clock_nanosleepと絶対時間(TIMER_ABSTIME)を用いた場合、
+この丸め上げによる誤差を回避でき、スリープ時間に差が生まれる。
