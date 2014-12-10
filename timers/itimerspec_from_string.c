@@ -1,0 +1,69 @@
+/*************************************************************************\
+*                  Copyright (C) Michael Kerrisk, 2014.                   *
+*                                                                         *
+* This program is free software. You may use, modify, and redistribute it *
+* under the terms of the GNU Lesser General Public License as published   *
+* by the Free Software Foundation, either version 3 or (at your option)   *
+* any later version. This program is distributed without any warranty.    *
+* See the files COPYING.lgpl-v3 and COPYING.gpl-v3 for details.           *
+\*************************************************************************/
+/*************************************************************************\
+*                  Copyright (C) xirc, 2014.                              *
+* See above.                                                              *
+\*************************************************************************/
+
+
+/* itimerspec_from_string.c
+
+   Implement our itimerspec_from_string() function.
+*/
+
+
+#include <string.h>
+#include <stdlib.h>
+#include "itimerspec_from_string.h"
+
+
+/* Convert a string of the following form to an itimerspec structure:
+ * "value.sec[/value.nanosec][:interval.sec[/interval.nanosec]]".
+ * Optional components that are omitted cause 0 to be assigned to the
+ * corresponding structure fields. */
+void
+itimerspec_from_string(const char *str, struct itimerspec *tsp)
+{
+    char *s;
+    char *cptr, *sptr;
+
+    s = strdup(str);
+    if (s == NULL) {
+        tsp->it_value.tv_sec = 0;
+        tsp->it_value.tv_nsec = 0;
+        tsp->it_interval.tv_sec = 0;
+        tsp->it_interval.tv_nsec = 0;
+        return;
+    }
+
+    cptr = strchr(s, ':');
+    if (cptr != NULL) {
+        *cptr = '\0';
+    }
+    sptr = strchr(s, '/');
+    if (sptr != NULL) {
+        *sptr = '\0';
+    }
+    tsp->it_value.tv_sec = atoi(s);
+    tsp->it_value.tv_nsec = (sptr != NULL) ? atoi(sptr + 1) : 0;
+    if (cptr == NULL) {
+        tsp->it_interval.tv_sec = 0;
+        tsp->it_interval.tv_nsec = 0;
+    } else {
+        sptr = strchr(cptr + 1, '/');
+        if (sptr != NULL) {
+            *sptr = '\0';
+        }
+        tsp->it_interval.tv_sec = atoi(cptr + 1);
+        tsp->it_interval.tv_nsec = (sptr != NULL) ? atoi(sptr + 1) : 0;
+    }
+
+    free(s);
+}
