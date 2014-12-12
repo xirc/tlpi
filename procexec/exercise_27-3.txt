@@ -1,0 +1,7 @@
+先頭に行番号が付与される。
+$ ./my_cat.sh
+   1  #!/bin/cat -n
+   2  Hello world
+===
+execve("./mycat.sh", { "./mycat.sh", NULL }, ENV);
+/bin/cat -n ./my_cat.sh
