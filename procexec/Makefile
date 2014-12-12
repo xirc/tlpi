@@ -13,7 +13,7 @@ OBJS = t_fork.o fork_file_sharing.o t_vfork.o fork_whos_on_first.o \
        multi_SIGCHLD.o ppid_when_parent_dies.o ppid3.o child_status2.o \
        make_zombie2.o t_execve.o envargs.o t_execlp.o t_execle.o t_execl.o \
        closeonexec.o t_system.o simple_system.o m_system.o m_execlp.o \
-       fork_copy.o noprint.o wait_and_blockSIGCHLD
+       fork_copy.o noprint.o wait_and_blockSIGCHLD.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
