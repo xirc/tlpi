@@ -12,7 +12,7 @@ all: $(TARGETS)
 clean:
 	$(RM) $(TARGETS) $(OBJS)
 .c.o:
-	$(CC) $(CFLAGS) $(LDFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 t_unlink: t_unlink.o
 t_unlink.o: t_unlink.c

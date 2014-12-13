@@ -8,7 +8,7 @@ all: $(TARGETS)
 clean:
 	$(RM) $(TARGETS) $(OBJS)
 .c.o:
-	$(CC) $(CFLAGS) $(LDFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 free_and_sbrk: free_and_sbrk.o
 free_and_sbrk.o: free_and_sbrk.c
