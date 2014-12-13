@@ -9,7 +9,7 @@ all: $(TARGETS)
 clean:
 	$(RM) $(TARGETS) $(OBJS)
 .c.o:
-	$(CC) $(CFLAGS) $(LDFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 t_ugid_functions: t_ugid_functions.o ugid_functions.o
 t_ugid_functions.o: t_ugid_functions.c ugid_functions.h
