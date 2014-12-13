@@ -4,14 +4,14 @@ TARGETS = simple_thread detached_attrib t_join_self \
           thread_incr2 t_ubt_test1 t_ubt_test1s t_ubt_test2 t_ubt_test2s \
           strerror_test strerror_test_tsd strerror_test_tls \
           one_time_init t_dirbasename \
-          thread_cancel thread_cleanup
+          thread_cancel thread_cleanup thread_signal thread_fork
 OBJS = simple_thread.o detached_attrib.o t_join_self.o \
        no_join_self.o wrong_reference.o thread_incr.o thread_incr_mutex.o \
        thread_mutex_type.o prod_no_condvar.o prod_condvar.o thread_multijoin.o \
        thread_incr2.o t_ubt_test1.o t_ubt_test2.o ubt.o ubt_simple.o \
        strerror_test.o strerror.o strerror_tsd.o strerror_tls.o \
        one_time_init.o t_dirbasename.o m_dirbasename.a m_dirname.o m_basename.o \
-       thread_cancel.o thread_cleanup.o
+       thread_cancel.o thread_cleanup.o thread_signal.o thread_fork.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS = -pthread
 RM = rm -f
@@ -78,3 +78,7 @@ thread_cancel: thread_cancel.o
 thread_cancel.o: thread_cancel.c
 thread_cleanup: thread_cleanup.o
 thread_cleanup.o: thread_cleanup.c
+thread_signal: thread_signal.o
+thread_signal.o: thread_signal.c
+thread_fork: thread_fork.o
+thread_fork.o: thread_fork.c
