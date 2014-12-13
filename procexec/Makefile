@@ -24,7 +24,7 @@ all: $(TARGETS)
 clean:
 	$(RM) $(TARGETS) $(OBJS)
 .c.o:
-	$(CC) $(CFLAGS) $(LDFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 t_fork: t_fork.o
 t_fork.o: t_fork.c

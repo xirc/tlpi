@@ -10,7 +10,7 @@ all: $(TARGETS)
 clean:
 	$(RM) $(TARGETS) $(OBJS)
 .c.o:
-	$(CC) $(CFLAGS) $(LDFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 t_stat: t_stat.o file_perms.o
 t_stat.o: t_stat.c file_perms.h

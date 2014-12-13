@@ -8,7 +8,7 @@ all: $(TARGETS)
 clean:
 	$(RM) $(TARGETS) $(OBJS)
 .c.o:
-	$(CC) $(CFLAGS) $(LDFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 demo_inotify: demo_inotify.o
 demo_inotify.o: demo_inotify.c

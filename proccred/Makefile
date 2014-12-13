@@ -8,7 +8,7 @@ all: $(TARGETS)
 clean:
 	$(RM) $(TARGETS) $(OBJS)
 .c.o:
-	$(CC) $(CFLAGS) $(LDFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 idshow: idshow.o
 idshow.o: idshow.c
