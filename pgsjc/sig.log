@@ -1,0 +1,7 @@
+PID of parent process is:      3665
+Foregroud process group ID is: 3665
+PID=3665 PGID=3665
+PID=3688 PGID=3665
+PID=3687 PGID=3687
+PID 3689: caught signal  1 (Hangup)
+PID 3688: caught signal  1 (Hangup)

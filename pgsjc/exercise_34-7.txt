@@ -1,0 +1,34 @@
+[vagrant@localhost pgsjc]$ # use dfl
+[vagrant@localhost pgsjc]$ ./t_sig_ttin_ttou_tstp dfl
+[vagrant@localhost pgsjc]$ PID=3646 is zombie process. You should kill 3646 at end.
+
+[vagrant@localhost pgsjc]$ kill -SIGTTIN 3646
+[vagrant@localhost pgsjc]$ kill -SIGTTOU 3646
+[vagrant@localhost pgsjc]$ kill -SIGTSTP 3646
+[vagrant@localhost pgsjc]$ ps -u
+Warning: bad syntax, perhaps a bogus '-'? See /usr/share/doc/procps-3.2.8/FAQ
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+vagrant   3026  0.0  0.3   6444  1904 pts/0    Ss   03:45   0:00 -bash
+vagrant   3646  0.0  0.0   1868   236 pts/0    S    04:57   0:00 ./t_sig_ttin_ttou_tstp dfl
+vagrant   3647  0.0  0.2   5892  1060 pts/0    R+   04:58   0:00 ps -u
+[vagrant@localhost pgsjc]$ kill 3646
+[vagrant@localhost pgsjc]$ # use custom handler
+[vagrant@localhost pgsjc]$ ./t_sig_ttin_ttou_tstp
+[vagrant@localhost pgsjc]$ PID=3649 is zombie process. You should kill 3649 at end.
+
+[vagrant@localhost pgsjc]$ kill -SIGTTIN 3649
+[vagrant@localhost pgsjc]$ PROCESS(3649) received signal (21, Stopped (tty input))
+
+[vagrant@localhost pgsjc]$ kill -SIGTTOU 3649
+[vagrant@localhost pgsjc]$ PROCESS(3649) received signal (22, Stopped (tty output))
+
+[vagrant@localhost pgsjc]$ kill -SIGTSTP 3649
+[vagrant@localhost pgsjc]$ PROCESS(3649) received signal (20, Stopped)
+
+[vagrant@localhost pgsjc]$ ps -u
+Warning: bad syntax, perhaps a bogus '-'? See /usr/share/doc/procps-3.2.8/FAQ
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+vagrant   3026  0.0  0.3   6444  1904 pts/0    Ss   03:45   0:00 -bash
+vagrant   3649  0.0  0.0   1868   300 pts/0    S    04:58   0:00 ./t_sig_ttin_ttou_tstp
+vagrant   3650  0.0  0.2   5892  1060 pts/0    R+   04:59   0:00 ps -u
+[vagrant@localhost pgsjc]$ kill 3649
