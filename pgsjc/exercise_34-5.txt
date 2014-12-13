@@ -1,0 +1,8 @@
+sigprocmaskとraiseの間にユーザがCtrl+Zを入力すると、
+SIGCONTを2回実行する必要がある。
+
+sigprocmaskとraiseの間にユーザがCtrl+Zを入力すると、
+シグナルハンドラの途中でプログラムは実行を一時停止する。
+SIGCONTによってプログラムが実行を再開すると、
+再びraise(SIGTSTP)によってプログラムの実行が一時停止する。
+そのため、再度SIGCONTを送信する必要がある。
