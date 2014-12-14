@@ -1,0 +1,30 @@
+[vagrant@localhost tmp]$ cp /bin/sleep ./
+[vagrant@localhost tmp]$ ls -l sleep
+-rwxr-xr-x 1 vagrant vagrant 23132 10月  1 11:24 2014 sleep
+[vagrant@localhost tmp]$ chmod u+s sleep
+[vagrant@localhost tmp]$ ls -l sleep
+-rwsr-xr-x 1 vagrant vagrant 23132 10月  1 11:24 2014 sleep
+[vagrant@localhost tmp]$ cat /bin/echo >> ./sleep
+[vagrant@localhost tmp]$ ls -l sleep
+-rwxr-xr-x 1 vagrant vagrant 46620 10月  1 11:24 2014 sleep
+
+[vagrant@localhost tmp]$ chmod g+s sleep
+[vagrant@localhost tmp]$ ls -l sleep
+-rwxr-sr-x 1 vagrant vagrant 46620 10月  1 11:24 2014 sleep
+[vagrant@localhost tmp]$ cat /bin/echo >> ./sleep
+[vagrant@localhost tmp]$ ls -l sleep
+-rwxr-xr-x 1 vagrant vagrant 70108 10月  1 11:28 2014 sleep
+
+
+結果:
+set-user-IDビットはリセットされる。
+set-group-IDビットもリセットされる。
+
+考察:
+信頼出来ない内容の実行ファイルに特権を与えないため。
+
+set-user-IDビットをリセットしない場合を検討する。
+オーナーがrootでset-user-IDビットがセットされたファイルがあり、
+すべてのユーザに書き込み許可を与えていると、
+set-user-IDビットをリセットしない場合、
+非特権ユーザでもファイルの内容を変更することで特権を持つ任意の実行ファイルを生成できる。
