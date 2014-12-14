@@ -1,0 +1,61 @@
+[vagrant@localhost loginacct]$ su
+パスワード:
+[root@localhost loginacct]# ./utmpx_login mtk
+Creating login entries in utmp and wtmp
+        using pid 3401, line pts/0, id /0
+^Z
+[1]+  停止                  ./utmpx_login mtk
+[root@localhost loginacct]# ./dump_utmpx /var/run/utmp
+user     type        PID line   id   host     date/time
+reboot   BOOT_TIME     0 ~      ~~  2.6.32-35 Sun Oct  5 01:45:16 2014
+runlevel RUN_LVL      51 ~      ~~  2.6.32-35 Sun Oct  5 01:45:16 2014
+LOGIN    LOGIN_PR   1561 tty1   1             Sun Oct  5 01:45:46 2014
+LOGIN    LOGIN_PR   1563 tty2   2             Sun Oct  5 01:45:46 2014
+LOGIN    LOGIN_PR   1565 tty3   3             Sun Oct  5 01:45:46 2014
+LOGIN    LOGIN_PR   1567 tty4   4             Sun Oct  5 01:45:46 2014
+LOGIN    LOGIN_PR   1569 tty5   5             Sun Oct  5 01:45:46 2014
+LOGIN    LOGIN_PR   1571 tty6   6             Sun Oct  5 01:45:46 2014
+vagrant  USER_PR    3042 pts/0  ts/0v 10.0.2.2  Sun Oct  5 01:46:32 2014
+mtk      USER_PR    3401 pts/0  /0            Sun Oct  5 04:54:59 2014
+[root@localhost loginacct]# who
+vagrant  pts/0        2014-10-05 01:46 (10.0.2.2)
+mtk      pts/0        2014-10-05 04:54
+[root@localhost loginacct]# ./dump_utmpx /var/log/wtmp | tail -n5
+LOGIN    LOGIN_PR   1571 tty6   6             Sun Oct  5 01:45:46 2014
+vagrant  USER_PR    3042 pts/0  ts/0v 10.0.2.2  Sun Oct  5 01:46:32 2014
+mtk      USER_PR    3384 pts/0  /0            Sun Oct  5 04:52:05 2014
+         DEAD_PR    3384 pts/0  /0            Sun Oct  5 04:53:09 2014
+mtk      USER_PR    3401 pts/0  /0            Sun Oct  5 04:54:59 2014
+[root@localhost loginacct]# last mtk
+mtk      pts/0                         Sun Oct  5 04:54   still logged in
+mtk      pts/0                         Sun Oct  5 04:52 - 04:53  (00:01)
+
+wtmp begins Sun Nov  3 08:11:31 2013
+[root@localhost loginacct]# fg
+./utmpx_login mtk
+Creating logout entries in utmp and wtmp
+[root@localhost loginacct]# ./dump_utmpx /var/run/utmp
+user     type        PID line   id   host     date/time
+reboot   BOOT_TIME     0 ~      ~~  2.6.32-35 Sun Oct  5 01:45:16 2014
+runlevel RUN_LVL      51 ~      ~~  2.6.32-35 Sun Oct  5 01:45:16 2014
+LOGIN    LOGIN_PR   1561 tty1   1             Sun Oct  5 01:45:46 2014
+LOGIN    LOGIN_PR   1563 tty2   2             Sun Oct  5 01:45:46 2014
+LOGIN    LOGIN_PR   1565 tty3   3             Sun Oct  5 01:45:46 2014
+LOGIN    LOGIN_PR   1567 tty4   4             Sun Oct  5 01:45:46 2014
+LOGIN    LOGIN_PR   1569 tty5   5             Sun Oct  5 01:45:46 2014
+LOGIN    LOGIN_PR   1571 tty6   6             Sun Oct  5 01:45:46 2014
+vagrant  USER_PR    3042 pts/0  ts/0v 10.0.2.2  Sun Oct  5 01:46:32 2014
+         DEAD_PR    3401 pts/0  /0            Sun Oct  5 04:55:37 2014
+[root@localhost loginacct]# who
+vagrant  pts/0        2014-10-05 01:46 (10.0.2.2)
+[root@localhost loginacct]# ./dump_utmpx /var/log/wtmp | tail -n5
+vagrant  USER_PR    3042 pts/0  ts/0v 10.0.2.2  Sun Oct  5 01:46:32 2014
+mtk      USER_PR    3384 pts/0  /0            Sun Oct  5 04:52:05 2014
+         DEAD_PR    3384 pts/0  /0            Sun Oct  5 04:53:09 2014
+mtk      USER_PR    3401 pts/0  /0            Sun Oct  5 04:54:59 2014
+         DEAD_PR    3401 pts/0  /0            Sun Oct  5 04:55:37 2014
+[root@localhost loginacct]# last mtk
+mtk      pts/0                         Sun Oct  5 04:54 - 04:55  (00:00)
+mtk      pts/0                         Sun Oct  5 04:52 - 04:53  (00:01)
+
+wtmp begins Sun Nov  3 08:11:31 2013
