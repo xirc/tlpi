@@ -1,0 +1,12 @@
+[vagrant@localhost procpri]$ su
+パスワード:
+[root@localhost procpri]# sleep 100 &
+[1] 8519
+[root@localhost procpri]# ./sched_view 8519
+8519: OTHER  0
+[root@localhost procpri]# ./sched_set r 10 8519
+[root@localhost procpri]# ./sched_view 8519
+8519: RR    10
+[root@localhost procpri]# ./sched_set o 0 8519
+[root@localhost procpri]# ./sched_view 8519
+8519: OTHER  0
