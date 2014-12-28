@@ -1,0 +1,23 @@
+[vagrant@localhost filelock]$ ./exercise_55-5.sh
+..........
+LOCKED: 0 2 4 6 8 ... 79998
+
+real    0m0.007s
+user    0m0.000s
+sys     0m0.005s
+
+real    0m0.932s
+user    0m0.000s
+sys     0m0.930s
+
+real    0m1.883s
+user    0m0.001s
+sys     0m1.874s
+
+real    0m3.095s
+user    0m0.002s
+sys     0m3.082s
+
+real    0m9.358s
+user    0m0.008s
+sys     0m9.297s
