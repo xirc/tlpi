@@ -7,7 +7,7 @@ TARGETS = us_xfr_sv us_xfr_cl ud_ucase_sv ud_ucase_cl ud_dgram \
           is_seqnum_sv3 is_seqnum_cl3 \
           us_xfr3_sv us_xfr3_cl is_sock3 id_echo_sv id_echo_cl \
           is_echo_sv is_echo_inetd_sv is_echo_sv2 is_echo_sv3 \
-          t_rdwrn is_echo_cl socknames
+          t_rdwrn is_echo_cl socknames scm_rights_recv scm_rights_send
 OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
        us_xfr2_sv.o us_xfr2_cl.o us_seqnum_server.o us_seqnum_client.o ud_dgram3.o \
        byteorder.o read_line.o i6d_ucase_sv.o i6d_ucase_cl.o is_seqnum_sv.o is_seqnum_cl.o \
@@ -17,7 +17,7 @@ OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
        is_seqnum_sv3.o is_seqnum_cl3.o \
        us_xfr3_sv.o us_xfr3_cl.o unix_sockets.o is_sock3.o id_echo_sv.o id_echo_cl.o \
        is_echo_sv.o is_echo_inetd_sv.o is_echo_sv2.o is_echo_sv3.o \
-       t_rdwrn.o rdwrn.o is_echo_cl.o socknames.o
+       t_rdwrn.o rdwrn.o is_echo_cl.o socknames.o scm_rights_recv.o scm_rights_send.o
 
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
@@ -110,3 +110,7 @@ is_echo_cl: is_echo_cl.o inet_sockets.o
 is_echo_cl.o: is_echo_cl.c inet_sockets.h
 socknames: socknames.o inet_sockets.o
 socknames.o: socknames.c inet_sockets.h
+scm_rights_recv: scm_rights_recv.o unix_sockets.o
+scm_rights_recv.o: scm_rights_recv.c scm_rights.h unix_sockets.h
+scm_rights_send: scm_rights_send.o unix_sockets.o
+scm_rights_send.o: scm_rights_send.c scm_rights.h unix_sockets.h
