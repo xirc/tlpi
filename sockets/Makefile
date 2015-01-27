@@ -9,7 +9,7 @@ TARGETS = us_xfr_sv us_xfr_cl ud_ucase_sv ud_ucase_cl ud_dgram \
           is_echo_sv is_echo_inetd_sv is_echo_sv2 is_echo_sv3 \
           t_rdwrn is_echo_cl socknames scm_rights_recv scm_rights_send \
           scm_cred_recv scm_cred_send socketpair_pipe m_sendfile \
-          emepheral_listen
+          emepheral_listen is_shell_sv is_shell_cl
 OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
        us_xfr2_sv.o us_xfr2_cl.o us_seqnum_server.o us_seqnum_client.o ud_dgram3.o \
        byteorder.o read_line.o i6d_ucase_sv.o i6d_ucase_cl.o is_seqnum_sv.o is_seqnum_cl.o \
@@ -21,7 +21,7 @@ OBJS = us_xfr_sv.o us_xfr_cl.o ud_ucase_sv.o ud_ucase_cl.o ud_dgram.o \
        is_echo_sv.o is_echo_inetd_sv.o is_echo_sv2.o is_echo_sv3.o \
        t_rdwrn.o rdwrn.o is_echo_cl.o socknames.o scm_rights_recv.o scm_rights_send.o \
        scm_cred_recv.o scm_cred_send.o socketpair_pipe.o m_sendfile.o \
-       emepheral_listen.o
+       emepheral_listen.o is_shell_sv.o is_shell_cl.o
 
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
@@ -128,3 +128,7 @@ m_sendfile: m_sendfile.o
 m_sendfile.o: m_sendfile.c
 emepheral_listen: emepheral_listen.o
 emepheral_listen.o: emepheral_listen.c
+is_shell_sv: is_shell_sv.o inet_sockets.o
+is_shell_sv.o: is_shell_sv.c is_shell.h inet_sockets.h
+is_shell_cl: is_shell_cl.o inet_sockets.o
+is_shell_cl.o: is_shell_cl.c is_shell.h inet_sockets.h
