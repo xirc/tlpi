@@ -1,7 +1,7 @@
 TARGETS = new_intr no_echo test_tty_functions demo_SIGWINCH \
-          m_isatty
+          m_isatty m_ttyname
 OBJS = new_intr.o no_echo.o tty_functions.o test_tty_functions.o demo_SIGWINCH.o \
-       m_isatty.o
+       m_isatty.o m_ttyname.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -23,3 +23,5 @@ demo_SIGWINCH: demo_SIGWINCH.o
 demo_SIGWINCH.o: demo_SIGWINCH.c
 m_isatty: m_isatty.o
 m_isatty.o: m_isatty.c
+m_ttyname: m_ttyname.o
+m_ttyname.o: m_ttyname.c
