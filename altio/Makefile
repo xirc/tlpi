@@ -1,5 +1,5 @@
-TARGETS = t_select
-OBJS = t_select.o
+TARGETS = t_select poll_pipes
+OBJS = t_select.o poll_pipes.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -12,3 +12,5 @@ clean:
 
 t_select: t_select.o
 t_select.o: t_select.c
+poll_pipes: poll_pipes.o
+poll_pipes.o: poll_pipes.c
