@@ -1,7 +1,7 @@
 TARGETS = t_select poll_pipes demo_sigio epoll_input \
-          epoll_dupfd self_pipe
+          epoll_dupfd self_pipe select_pipes
 OBJS = t_select.o poll_pipes.o demo_sigio.o tty_functions.o epoll_input.o \
-       epoll_dupfd.o self_pipe.o
+       epoll_dupfd.o self_pipe.o select_pipes.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -25,3 +25,5 @@ epoll_dupfd: epoll_dupfd.o
 epoll_dupfd.o: epoll_dupfd.c
 self_pipe: self_pipe.o
 self_pipe.o: self_pipe.c
+select_pipes: select_pipes.o
+select_pipes.o: select_pipes.c
