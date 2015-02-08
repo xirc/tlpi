@@ -1,7 +1,7 @@
 TARGETS = t_pty_master_open t_pty_fork \
-          script
+          script script2
 OBJS = t_pty_master_open.o pty_master_open.o t_pty_fork.o pty_fork.o script.o \
-       script.o tty_functions.o pty_master_open_bsd.o
+       script.o tty_functions.o pty_master_open_bsd.o script2.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -23,3 +23,5 @@ script: script.o tty_functions.o pty_fork.o pty_master_open.o
 script.o: script.c tty_functions.h
 tty_functions.o: tty_functions.c tty_functions.h
 pty_master_open_bsd.o: pty_master_open_bsd.c pty_master_open.h
+script2: script2.o tty_functions.o pty_fork.o pty_master_open.o
+script2.o: script2.c tty_functions.h
