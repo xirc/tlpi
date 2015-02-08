@@ -25,6 +25,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <libgen.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -40,6 +41,7 @@
 
 
 struct termios tty_orig;
+struct winsize ws_orig;
 
 /* Reset terminal mode on program exit */
 static void
@@ -49,6 +51,14 @@ tty_reset(void)
         perror("tcsetattr");
         exit(EXIT_FAILURE);
     }
+}
+
+
+static sig_atomic_t got_sigwinch = 0;
+static void
+sigwinch_handler(int sig __attribute__((unused)))
+{
+    got_sigwinch = 1;
 }
 
 
@@ -89,12 +99,13 @@ main(int argc, char *argv[])
     char buf[BUF_SIZE];
     ssize_t num_reads;
     pid_t child_pid;
+    struct sigaction sa;
 
     if (tcgetattr(STDIN_FILENO, &tty_orig) == -1) {
         perror("tcgetattr");
         exit(EXIT_FAILURE);
     }
-    if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ws) < 0) {
+    if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ws_orig) < 0) {
         perror("ioctl-TIOCGWINSZ");
         exit(EXIT_FAILURE);
     }
@@ -131,6 +142,14 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sa.sa_handler = sigwinch_handler;
+    if (sigaction(SIGWINCH, &sa, NULL) == -1) {
+        perror("sigaction");
+        exit(EXIT_FAILURE);
+    }
+
     /* Record start time stamp */
     if (timestamp(script_fd, "start # ", NULL) == -1) {
         perror("timestamp");
@@ -138,11 +157,27 @@ main(int argc, char *argv[])
     }
 
     while (1) {
+        if (got_sigwinch) {
+            got_sigwinch = 0;
+
+            if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ws) < 0) {
+                perror("ioctl-TIOCGWINSZ");
+                exit(EXIT_FAILURE);
+            }
+            if (ioctl(master_fd, TIOCSWINSZ, &ws) < 0) {
+                perror("ioctl-TIOCSWINSZ");
+                exit(EXIT_FAILURE);
+            }
+        }
+
         FD_ZERO(&infds);
         FD_SET(STDIN_FILENO, &infds);
         FD_SET(master_fd, &infds);
 
         if (select(master_fd + 1, &infds, NULL, NULL, NULL) == -1) {
+            if (errno == EINTR) {
+                continue;
+            }
             perror("select");
             exit(EXIT_FAILURE);
         }
