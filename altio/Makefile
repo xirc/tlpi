@@ -1,9 +1,9 @@
 TARGETS = t_select poll_pipes demo_sigio epoll_input \
           epoll_dupfd self_pipe select_pipes echo_server select_sysvmsgq \
-         self_pipe2 epoll_cw
+         self_pipe2 epoll_cw t_epoll_wait
 OBJS = t_select.o poll_pipes.o demo_sigio.o tty_functions.o epoll_input.o \
        epoll_dupfd.o self_pipe.o select_pipes.o echo_server.o select_sysvmsgq.o \
-       self_pipe2.o epoll_cw.o
+       self_pipe2.o epoll_cw.o t_epoll_wait.o
 CFLAGS = -std=c99 -D_XOPEN_SOURCE=700 -g -Wall -Wextra
 LDFLAGS =
 RM = rm -f
@@ -37,3 +37,5 @@ self_pipe2: self_pipe2.o
 self_pipe2.o: self_pipe2.c
 epoll_cw: epoll_cw.o
 epoll_cw.o: epoll_cw.c
+t_epoll_wait: t_epoll_wait.o
+t_epoll_wait.o: t_epoll_wait.c
